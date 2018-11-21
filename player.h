@@ -13,6 +13,11 @@
 #define J2_LEFT                 SDLK_LEFT
 #define J2_ATTACK           SDLK_KP0
 
+// Constante de combat
+#define BIG_ATTACK      50
+
+
+
 #include <stdbool.h>
 
 // Type Player
@@ -28,6 +33,14 @@ typedef struct {
     int right;
     int left;
     int attack;
+
+    int hp;
+    int hpMax;
+    int canAttack;
+    int buffer;
+    int estPropulse;
+    int forcePropulsion;
+    int sensPropulsion;
 
 } Player;
 

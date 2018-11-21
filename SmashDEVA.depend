@@ -325,3 +325,59 @@
 	"player.h"
 	"constantes.h"
 
+1542819909 source:c:\users\aymeric\documents\github\smashdeva\jeu.c
+	<stdlib.h>
+	<stdio.h>
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	<SDL/SDL_ttf.h>
+	"constantes.h"
+	"player.h"
+	"obstacles.h"
+	"sprites.h"
+
+1542818023 c:\users\aymeric\documents\github\smashdeva\constantes.h
+
+1542820463 c:\users\aymeric\documents\github\smashdeva\player.h
+	<stdbool.h>
+
+1542642875 c:\users\aymeric\documents\github\smashdeva\obstacles.h
+
+1542643105 c:\users\aymeric\documents\github\smashdeva\sprites.h
+
+1542817934 source:c:\users\aymeric\documents\github\smashdeva\main.c
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<string.h>
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	<SDL/SDL_ttf.h>
+	"player.h"
+	"obstacles.h"
+	"constantes.h"
+
+1542641938 source:c:\users\aymeric\documents\github\smashdeva\obstacles.c
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<string.h>
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	"obstacles.h"
+
+1542821043 source:c:\users\aymeric\documents\github\smashdeva\player.c
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<string.h>
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	"player.h"
+	"constantes.h"
+
+1325814793 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl_ttf.h
+	"SDL.h"
+	"begin_code.h"
+	"close_code.h"
+
