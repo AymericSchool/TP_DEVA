@@ -1,0 +1,45 @@
+#include "player.h"
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+
+
+bool colide (SDL_Rect obj, SDL_Rect* oth) {
+    int i;
+    for (i = 0; i < 10; i++) {
+        // Coin superieur gauche
+        if (((oth[i].x <= obj.x) && (obj.x <= oth[i].x + oth[i].w)) && ((oth[i].y <= obj.y) && (obj.y <= oth[i].y + oth[i].h))) return true;
+        // Coin inferieur gauche
+        if (((oth[i].x <= obj.x) && (obj.x <= oth[i].x + oth[i].w)) && ((oth[i].y <= obj.y + obj.h) && (obj.y + obj.h <= oth[i].y + oth[i].h))) return true;
+        // Coin superieur droit
+        if (((oth[i].x <= obj.x + obj.w) && (obj.x + obj.w <= oth[i].x + oth[i].w)) && ((oth[i].y <= obj.y) && (obj.y <= oth[i].y + oth[i].h))) return true;
+        // Coin inferieur droit
+        if (((oth[i].x <= obj.x + obj.w) && (obj.x + obj.w <= oth[i].x + oth[i].w)) && ((oth[i].y <= obj.y + obj.h) && (obj.y + obj.h <= oth[i].y + oth[i].h))) return true;
+    }
+    // Sinon
+    return false;
+}
+
+void move(SDL_Rect* obj, int direction) {
+    SDL_Rect temp;
+    temp = *obj;
+    // Haut
+    if (direction == 8) {
+        temp.y-=2;
+        if (!colide(temp, obstacles)) *(obj).y-=2;
+    }
+    // Gauche
+    if (direction == 4) {
+        temp.x--;
+        if (!colide(temp, obstacles)) *(obj).x--;
+    }
+    // Droite
+    if (direction == 6) {
+        temp.x++;
+        if (temp.x < 734 && !colide(temp, obstacles)) *(obj).x++;
+    }
+}

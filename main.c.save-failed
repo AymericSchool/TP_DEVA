@@ -1,0 +1,95 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+
+#include "player.h"
+
+int main(int argc, char *argv[])
+{
+        if (SDL_Init(SDL_INIT_VIDEO) == -1)
+    {
+        fprintf(stderr, "Erreur d'initialisation de la SDL");
+        exit(EXIT_FAILURE);
+    }
+
+    int up = 0, left = 0, right = 0, fall = 1;
+
+    SDL_Surface *screen = NULL, *perso = NULL;
+    SDL_Rect pos_perso;
+
+        SDL_Rect* obstacles;
+
+    pos_perso.x = 100;
+    pos_perso.y = 100;
+
+    SDL_Event event;
+    int continuer = 1;
+
+    screen = SDL_SetVideoMode(800,600,32,SDL_HWSURFACE | SDL_DOUBLEBUF);
+    SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 255, 255, 255));
+    SDL_WM_SetCaption("On se deplace", NULL);
+
+    perso = IMG_Load("res/droid_000.png");
+
+    SDL_EnableKeyRepeat(10,10);
+
+    while (continuer) {
+        SDL_PollEvent(&event);
+        switch(event.type)
+        {
+        default:
+            break;
+        case SDL_QUIT:
+            continuer = 0;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym)
+            {
+            case SDLK_SPACE:
+                up = 1;
+                break;
+            case SDLK_LEFT:
+                left = 1;
+                break;
+            case SDLK_RIGHT:
+                right = 1;
+                break;
+            default:
+                break;
+            }
+            break;
+        case SDL_KEYUP:
+            switch (event.key.keysym.sym)
+            {
+                case SDLK_SPACE:
+                    up = 0;
+                    break;
+                case SDLK_LEFT:
+                    left = 0;
+                    break;
+                case SDLK_RIGHT:
+                    right = 0;
+                    break;
+                default:
+                    break;
+            }
+            break;
+        }
+
+         if (up) move(&pos_perso, 8);
+         if (right) move(&pos_perso, 6);
+         if (left) move(&pos_perso, 4);
+
+         // Affichage
+        SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 255, 255, 255));
+        SDL_BlitSurface(perso, NULL, screen, &pos_perso);
+        SDL_Flip(screen);
+        }
+
+    SDL_FreeSurface(perso);
+    SDL_Quit();
+
+    return EXIT_SUCCESS;
+}
