@@ -51,6 +51,16 @@ void moving(Player *p, SDL_Rect* obstacles)
 {
     SDL_Rect temp;
     temp = p->hitbox;
+    // Propulsion
+        if (p->estPropulse)
+        {
+            p->right = 0;
+            p->left = 0;
+            p->hitbox.y-= JUMP_SPEED;
+            p->hitbox.x += 2*p->speed * p->sensPropulsion;
+            p->forcePropulsion--;
+            if (p->forcePropulsion == 0) p->estPropulse = 0;
+        }
     // Saut
     if (p->up) {
         temp.y += p->speed;
@@ -58,7 +68,7 @@ void moving(Player *p, SDL_Rect* obstacles)
             p->h = p->hitbox.y - p->jump;
         }
         if (p->hitbox.y > p->h) {
-            p->hitbox.y-=p->speed*2;
+            p->hitbox.y-=JUMP_SPEED;
         }
         else p->h = HEIGHT_GAME - p->hitbox.h;
     }
@@ -75,19 +85,12 @@ void moving(Player *p, SDL_Rect* obstacles)
     }
     // Chute
     temp.y+=p->speed;
-    if (!colide(temp, obstacles))  p->hitbox.y+=p->speed;
-    // Propulsion
-    if (p->estPropulse)
-    {
-        p->hitbox.y-= 13;
-        p->hitbox.x += 7 * p->sensPropulsion;
-        p->forcePropulsion--;
-        if (p->forcePropulsion == 0) p->estPropulse = 0;
-    }
+    if (!colide(temp, obstacles))  p->hitbox.y+=FALL_SPEED;
+
 }
 
 // Initialise un player
-Player newPlayer(SDL_Surface *surface, SDL_Rect hitbox, char* type)
+Player newPlayer(SDL_Surface *surface, SDL_Rect hitbox, int type)
 {
     Player p; // Creation du player
     p.surface = surface; // Surface
@@ -99,13 +102,14 @@ Player newPlayer(SDL_Surface *surface, SDL_Rect hitbox, char* type)
     p.attack = 0; // Si la touche attaque est pressee
     p.jump = 250; // Hauteur du saut
     p.speed = 7; // vitesse
-    p.hp = 100; // HP
-    p.hpMax = 100; // HP MAX
+    p.hp = 50; // HP
+    p.hpMax = 50; // HP MAX
     p.canAttack = 1; // Peux attaquer si =1
     p.buffer = 0; // Quand =1000, grosse attaque
     p.estPropulse = 0; // Boolean qui dit si le joueur est propulse
     p.forcePropulsion = 0; // Si le joueur est propulse, voici la force de propulsion
     p.sensPropulsion = 0; // -1 si gauche, 0 si hauteur, 1 si droite
+    p.timeBeforeLittleHit = 0; // Si c'est un bot uniquement
     return p;
 }
 

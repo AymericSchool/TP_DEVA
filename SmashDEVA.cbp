@@ -44,6 +44,10 @@
 		</Linker>
 		<Unit filename="cb.bmp" />
 		<Unit filename="constantes.h" />
+		<Unit filename="ia.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ia.h" />
 		<Unit filename="jeu.c">
 			<Option compilerVar="CC" />
 		</Unit>

@@ -14,7 +14,10 @@
 #define J2_ATTACK           SDLK_KP0
 
 // Constante de combat
-#define BIG_ATTACK      50
+#define BIG_ATTACK                              50
+#define FALL_SPEED                              8
+#define JUMP_SPEED                              16
+#define TIME_BEFORE_LITTLE_HIT      20
 
 
 
@@ -24,7 +27,7 @@
 typedef struct {
     SDL_Surface *surface;
     SDL_Rect hitbox;
-    char* type;
+    int type; // 1 si joueur, 2 si IA
     int h;
     int jump;
     int speed;
@@ -41,6 +44,7 @@ typedef struct {
     int estPropulse;
     int forcePropulsion;
     int sensPropulsion;
+    int timeBeforeLittleHit;
 
 } Player;
 
@@ -52,7 +56,7 @@ void moving(Player* p, SDL_Rect* obstacles);
 // Combats
 void hit(Player *p1, Player *p2);
 // Creation de joueur
-Player newPlayer(SDL_Surface *surface, SDL_Rect hitbox, char* type);
+Player newPlayer(SDL_Surface *surface, SDL_Rect hitbox, int type);
 
 
 #endif // PLAYER_H_INCLUDED
