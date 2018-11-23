@@ -39,7 +39,7 @@ void jouer(SDL_Surface* screen) {
     p1.speed = 8;
 
     SDL_Rect pos_j2 = newRect(200,150,96,64);;
-    Player p2 = newPlayer(j2, pos_j2, 2);
+    Player p2 = newPlayer(j2, pos_j2, 1);
     p2.speed = 4;
 
     // Tableau d'obstacles
