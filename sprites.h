@@ -12,6 +12,7 @@ stocke les chemins des images du jeu
 #define STAGE_01                "res/stage_01.jpg"
 
 // Droid
+#define DROID_ICONE     "res/droid/droid_icone.jpg"
 #define DROID_00            "res/droid/droid_000.png"
 #define DROID_01            "res/droid/droid_001.png"
 #define DROID_02            "res/droid/droid_002.png"
@@ -30,6 +31,7 @@ stocke les chemins des images du jeu
 #define DROID_15            "res/droid/droid_015.png"
 
 // Tux
+#define TUX_ICONE     "res/tux/tux_icone.jpg"
 #define TUX_00            "res/tux/tux_000.png"
 #define TUX_01            "res/tux/tux_001.png"
 #define TUX_02            "res/tux/tux_002.png"
@@ -48,6 +50,7 @@ stocke les chemins des images du jeu
 #define TUX_15            "res/tux/tux_015.png"
 
 // Wilber
+#define WILBER_ICONE     "res/wilber/wilber_icone.jpg"
 #define WILBER_00            "res/wilber/wilber_000.png"
 #define WILBER_01            "res/wilber/wilber_001.png"
 #define WILBER_02            "res/wilber/wilber_002.png"
@@ -66,6 +69,7 @@ stocke les chemins des images du jeu
 #define WILBER_15            "res/wilber/wilber_015.png"
 
 // Kit
+#define KIT_ICONE     "res/kit/kit_icone.jpg"
 #define KIT_00            "res/kit/kit_000.png"
 #define KIT_01            "res/kit/kit_001.png"
 #define KIT_02            "res/kit/kit_002.png"

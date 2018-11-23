@@ -15,9 +15,13 @@ charge le menu, et lance le jeu
 #include "player.h"
 #include "obstacles.h"
 #include "constantes.h"
+#include "jeu.h"
+#include "stats.h"
+
 
 int main(int argc, char *argv[])
 {
+
     // Initialisation de la SDL
     if (SDL_Init(SDL_INIT_VIDEO) == -1)
     {
@@ -43,7 +47,7 @@ int main(int argc, char *argv[])
     int continuer = 1;
 
     // Ouverture de l'ecran
-    screen = SDL_SetVideoMode(WIDTH_GAME,HEIGHT_GAME,32,SDL_HWSURFACE | SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode(WIDTH_GAME,HEIGHT_GAME,32,SDL_FULLSCREEN | SDL_DOUBLEBUF);
     SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 255, 255, 255));
     SDL_WM_SetCaption(TITLE_GAME, NULL);
 

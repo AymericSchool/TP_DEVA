@@ -17,16 +17,16 @@
 #define BIG_ATTACK                              50
 #define FALL_SPEED                              8
 #define JUMP_SPEED                              16
-#define TIME_BEFORE_LITTLE_HIT      20
-
-
+#define TIME_BEFORE_LITTLE_HIT      25
 
 #include <stdbool.h>
 
 // Type Player
 typedef struct {
     SDL_Surface *surface;
+    SDL_Surface *icone;
     SDL_Rect hitbox;
+    int num; // numero
     int type; // 1 si joueur, 2 si IA
     int h;
     int jump;
@@ -46,6 +46,12 @@ typedef struct {
     int sensPropulsion;
     int timeBeforeLittleHit;
 
+    // STATS
+    int victory;
+    int defeat;
+    int big_hit;
+    int distance_travelled;
+
 } Player;
 
 // Collisions
@@ -56,7 +62,7 @@ void moving(Player* p, SDL_Rect* obstacles);
 // Combats
 void hit(Player *p1, Player *p2);
 // Creation de joueur
-Player newPlayer(SDL_Surface *surface, SDL_Rect hitbox, int type);
+Player newPlayer(int num, SDL_Surface *surface, SDL_Rect hitbox, int type);
 
 
 #endif // PLAYER_H_INCLUDED

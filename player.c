@@ -12,6 +12,7 @@ fonctions relatives a la physique du perso, collisions, sauts et deplacements
 
 #include "player.h"
 #include "constantes.h"
+#include "stats.h"
 
 int h;
 
@@ -76,12 +77,18 @@ void moving(Player *p, SDL_Rect* obstacles)
     // Gauche
     if (p->left) {
         temp.x-=p->speed;
-        if (!colide(temp, obstacles)) p->hitbox.x-=p->speed;
+        if (!colide(temp, obstacles)) {
+                p->hitbox.x-=p->speed;
+                p->distance_travelled++;
+        }
     }
     // Droite
     if (p->right) {
         temp.x+=p->speed;
-        if (temp.x < WIDTH_GAME - (*p).hitbox.w && !colide(temp, obstacles))  p->hitbox.x+=p->speed;
+        if (temp.x < WIDTH_GAME - (*p).hitbox.w && !colide(temp, obstacles))  {
+                p->hitbox.x+=p->speed;
+                p->distance_travelled++;
+        }
     }
     // Chute
     temp.y+=p->speed;
@@ -90,11 +97,13 @@ void moving(Player *p, SDL_Rect* obstacles)
 }
 
 // Initialise un player
-Player newPlayer(SDL_Surface *surface, SDL_Rect hitbox, int type)
+Player newPlayer(int num, SDL_Surface *surface, SDL_Rect hitbox, int type)
 {
     Player p; // Creation du player
     p.surface = surface; // Surface
+    p.icone = NULL;
     p.hitbox = hitbox; // Hitbox
+    p.num = num;
     p.type = type; // Type du player (IA ou Humain)
     p.up = 0; // Si la touche Up est pressee
     p.left = 0; // Si la touche left est pressee
@@ -110,6 +119,10 @@ Player newPlayer(SDL_Surface *surface, SDL_Rect hitbox, int type)
     p.forcePropulsion = 0; // Si le joueur est propulse, voici la force de propulsion
     p.sensPropulsion = 0; // -1 si gauche, 0 si hauteur, 1 si droite
     p.timeBeforeLittleHit = 0; // Si c'est un bot uniquement
+    p.big_hit = 0;
+    p.victory = 0;
+    p.defeat = 0;
+    p.distance_travelled = 0;
     return p;
 }
 
@@ -128,6 +141,7 @@ void hit(Player *p1, Player *p2)
             else p1->hitbox.x++;
         }
         if (p1->buffer == BIG_ATTACK) {
+            p1->big_hit++;
             p1->buffer = 0;
             p2->hp-=10;
             p2->estPropulse = 1;
@@ -136,6 +150,7 @@ void hit(Player *p1, Player *p2)
             else p2->sensPropulsion = 1;
         }
         if (p2->buffer == BIG_ATTACK) {
+            p2->big_hit++;
             p2->buffer = 0;
             p1->hp-=10;
             p1->estPropulse = 1;
