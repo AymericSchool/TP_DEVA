@@ -50,11 +50,9 @@ void jouer(SDL_Surface* screen) {
     p1.speed = 8;
     loadStats(&p1);
 
-
-
     SDL_Rect pos_j2 = newRect(1000,150,96,64);
-    Player p2 = newPlayer(2, j2, pos_j2, 1);
-    p2.speed = 8;
+    Player p2 = newPlayer(2, j2, pos_j2, 2);
+    p2.speed = 4;
     loadStats(&p2);
 
     // Tableau d'obstacles
@@ -92,7 +90,6 @@ void jouer(SDL_Surface* screen) {
             // Une touche est pressee
             switch (event.key.keysym.sym)
             {
-
                     case J1_UP:
                         // Touche espace pressee
                         if (p1.type == 1) p1.up = 1;
@@ -113,7 +110,6 @@ void jouer(SDL_Surface* screen) {
                         }
                         if (p1.type == 1) p1.buffer++;
                         break;
-
 
                     case J2_UP:
                         // Touche espace pressee
@@ -147,7 +143,6 @@ void jouer(SDL_Surface* screen) {
         case SDL_KEYUP:
             switch (event.key.keysym.sym)
             {
-
                         case J1_UP:
                             // Touche espace relachee
                             if (p1.type == 1) p1.up = 0;
@@ -166,7 +161,6 @@ void jouer(SDL_Surface* screen) {
                             if (p1.type == 1) p1.canAttack = 1;
                             if (p1.type == 1) p1.buffer = 0;
                             break;
-
 
                     case J2_UP:
                         // Touche espace relachee
@@ -224,7 +218,6 @@ void jouer(SDL_Surface* screen) {
         nbFps = 1000 / (tempsIni - temps);
         sprintf(fps, "FPS : %d", nbFps);
         text3 = TTF_RenderText_Solid(font2, fps, couleur_blanc);
-
 
          // Affichage
         SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));

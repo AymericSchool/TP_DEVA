@@ -93,9 +93,7 @@ void moving(Player *p, SDL_Rect* obstacles)
     // Chute
     temp.y+=p->speed;
     if (!colide(temp, obstacles))  p->hitbox.y+=FALL_SPEED;
-
 }
-
 // Initialise un player
 Player newPlayer(int num, SDL_Surface *surface, SDL_Rect hitbox, int type)
 {
@@ -125,7 +123,6 @@ Player newPlayer(int num, SDL_Surface *surface, SDL_Rect hitbox, int type)
     p.distance_travelled = 0;
     return p;
 }
-
 void hit(Player *p1, Player *p2)
 {
     if (colidePlayers(p1, p2))
@@ -159,7 +156,6 @@ void hit(Player *p1, Player *p2)
             else p1->sensPropulsion = -1;
         }
     }
-
     p1->attack = 0;
     p2->attack = 0;
 }

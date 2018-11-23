@@ -64,6 +64,10 @@
 		</Unit>
 		<Unit filename="player.h" />
 		<Unit filename="sprites.h" />
+		<Unit filename="stats.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="stats.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
