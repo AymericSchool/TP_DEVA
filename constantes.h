@@ -11,5 +11,6 @@ constantes du jeu
 #define HEIGHT_GAME     720
 #define TITLE_GAME          "Smash DEVA"
 #define FONT_UBUNTU     "res/font_ubuntu.ttf"
+#define FONT_ECRAN_TITRE    "res/Display.ttf"
 
 #endif // CONSTANTES_H_INCLUDED

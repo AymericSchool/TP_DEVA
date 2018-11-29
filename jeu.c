@@ -51,7 +51,7 @@ void jouer(SDL_Surface* screen) {
     loadStats(&p1);
 
     SDL_Rect pos_j2 = newRect(1000,150,96,64);
-    Player p2 = newPlayer(2, j2, pos_j2, 2);
+    Player p2 = newPlayer(2, j2, pos_j2, 1);
     p2.speed = 4;
     loadStats(&p2);
 
@@ -77,6 +77,9 @@ void jouer(SDL_Surface* screen) {
 
     // Creation de l'event, et variable de la boucle principale
     SDL_Event event;
+
+    SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
+    SDL_BlitSurface(stage, NULL, screen, &pos_stage);
 
     // Boucle principale
     while (continuer) {
@@ -219,9 +222,14 @@ void jouer(SDL_Surface* screen) {
         sprintf(fps, "FPS : %d", nbFps);
         text3 = TTF_RenderText_Solid(font2, fps, couleur_blanc);
 
-         // Affichage
-        SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
-        SDL_BlitSurface(stage, NULL, screen, &pos_stage);
+         // Affichage du stage
+        affFond(screen, stage, &p1.hitbox);
+        affFond(screen, stage, &p2.hitbox);
+        affFond(screen, stage, &pos_text1);
+        affFond(screen, stage, &pos_text2);
+        affFond(screen, stage, &pos_fps_counter);
+
+        // Affichage des sprites et des texts
         SDL_BlitSurface(p1.surface, NULL, screen, &p1.hitbox);
         SDL_BlitSurface(p2.surface, NULL, screen, &p2.hitbox);
         SDL_BlitSurface(green_box, NULL, screen, &obstacles[2]);

@@ -87,4 +87,6 @@ stocke les chemins des images du jeu
 #define KIT_14            "res/kit/kit_014.png"
 #define KIT_15            "res/kit/kit_015.png"
 
+void affFond(SDL_Surface* screen, SDL_Surface* fond, SDL_Rect* rect);
+
 #endif // SPRITES_H_INCLUDED

@@ -63,6 +63,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="player.h" />
+		<Unit filename="sprites.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="sprites.h" />
 		<Unit filename="stats.c">
 			<Option compilerVar="CC" />
