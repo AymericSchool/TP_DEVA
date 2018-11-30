@@ -59,6 +59,7 @@ void moving(Player *p, SDL_Rect* obstacles)
             p->left = 0;
             p->hitbox.y-= JUMP_SPEED;
             p->hitbox.x += 2*p->speed * p->sensPropulsion;
+            if (p->hitbox.x > WIDTH_GAME - p->hitbox.w) p->hitbox.x = WIDTH_GAME - p->hitbox.w;
             p->forcePropulsion--;
             if (p->forcePropulsion == 0) p->estPropulse = 0;
         }

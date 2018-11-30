@@ -52,7 +52,7 @@ void jouer(SDL_Surface* screen) {
 
     SDL_Rect pos_j2 = newRect(1000,150,96,64);
     Player p2 = newPlayer(2, j2, pos_j2, 1);
-    p2.speed = 4;
+    p2.speed = 8;
     loadStats(&p2);
 
     // Tableau d'obstacles
@@ -230,6 +230,7 @@ void jouer(SDL_Surface* screen) {
         affFond(screen, stage, &pos_fps_counter);
 
         // Affichage des sprites et des texts
+
         SDL_BlitSurface(p1.surface, NULL, screen, &p1.hitbox);
         SDL_BlitSurface(p2.surface, NULL, screen, &p2.hitbox);
         SDL_BlitSurface(green_box, NULL, screen, &obstacles[2]);

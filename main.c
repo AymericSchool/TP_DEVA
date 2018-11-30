@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     SDL_Rect posText = newRect(430, 500, 0, 0);
     SDL_Rect posVer = newRect(1140, 700, 0, 0);
     text = TTF_RenderText_Blended(font, "Appuyez sur ENTRER", couleur);
-    ver = TTF_RenderText_Solid(font2, "Version 0.2.2", couleur);
+    ver = TTF_RenderText_Solid(font2, "Version 0.2.3", couleur);
     int temps = 0, tempsIni = 0, aff = 0;
 
     // Creation du rect et surface du menu
