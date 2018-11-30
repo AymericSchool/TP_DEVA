@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 {
 
     // Initialisation de la SDL
-    if (SDL_Init(SDL_INIT_VIDEO) == -1)
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK) == -1)
     {
         fprintf(stderr, "Erreur d'initialisation de la SDL");
         exit(EXIT_FAILURE);
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 
     while(continuer)
     {
-        SDL_PollEvent(&event);
+        SDL_WaitEvent(&event);
         switch(event.type)
         {
             case SDL_QUIT:

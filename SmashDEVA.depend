@@ -199,7 +199,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1325810434 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl_image.h
+1325810433 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl_image.h
 	"SDL.h"
 	"SDL_version.h"
 	"begin_code.h"
@@ -325,7 +325,7 @@
 	"player.h"
 	"constantes.h"
 
-1542984640 source:c:\users\aymeric\documents\github\smashdeva\jeu.c
+1543586530 source:c:\users\aymeric\documents\github\smashdeva\jeu.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -338,16 +338,16 @@
 	"ia.h"
 	"stats.h"
 
-1542821572 c:\users\aymeric\documents\github\smashdeva\constantes.h
+1543579411 c:\users\aymeric\documents\github\smashdeva\constantes.h
 
-1542980203 c:\users\aymeric\documents\github\smashdeva\player.h
+1543579411 c:\users\aymeric\documents\github\smashdeva\player.h
 	<stdbool.h>
 
-1542821572 c:\users\aymeric\documents\github\smashdeva\obstacles.h
+1543579411 c:\users\aymeric\documents\github\smashdeva\obstacles.h
 
-1542980153 c:\users\aymeric\documents\github\smashdeva\sprites.h
+1543579411 c:\users\aymeric\documents\github\smashdeva\sprites.h
 
-1542978796 source:c:\users\aymeric\documents\github\smashdeva\main.c
+1543580152 source:c:\users\aymeric\documents\github\smashdeva\main.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -361,7 +361,7 @@
 	"jeu.h"
 	"stats.h"
 
-1542821572 source:c:\users\aymeric\documents\github\smashdeva\obstacles.c
+1543579411 source:c:\users\aymeric\documents\github\smashdeva\obstacles.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -370,7 +370,7 @@
 	<SDL/SDL_image.h>
 	"obstacles.h"
 
-1542984686 source:c:\users\aymeric\documents\github\smashdeva\player.c
+1543579411 source:c:\users\aymeric\documents\github\smashdeva\player.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -381,12 +381,12 @@
 	"constantes.h"
 	"stats.h"
 
-1325814794 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl_ttf.h
+1325814793 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl_ttf.h
 	"SDL.h"
 	"begin_code.h"
 	"close_code.h"
 
-1542909547 source:c:\users\aymeric\documents\github\smashdeva\ia.c
+1543579411 source:c:\users\aymeric\documents\github\smashdeva\ia.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -397,12 +397,12 @@
 	"player.h"
 	"constantes.h"
 
-1542909547 c:\users\aymeric\documents\github\smashdeva\ia.h
+1543579411 c:\users\aymeric\documents\github\smashdeva\ia.h
 
-1542984695 c:\users\aymeric\documents\github\smashdeva\stats.h
+1543579411 c:\users\aymeric\documents\github\smashdeva\stats.h
 	"player.h"
 
-1542984692 source:c:\users\aymeric\documents\github\smashdeva\stats.c
+1543579411 source:c:\users\aymeric\documents\github\smashdeva\stats.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -411,7 +411,7 @@
 	"constantes.h"
 	"player.h"
 
-1542821572 c:\users\aymeric\documents\github\smashdeva\jeu.h
+1543579411 c:\users\aymeric\documents\github\smashdeva\jeu.h
 
 1543508185 source:c:\users\maxence\documents\github\smashdeva\ia.c
 	<stdlib.h>
@@ -497,6 +497,19 @@
 1543508185 c:\users\maxence\documents\github\smashdeva\ia.h
 
 1543433413 source:c:\users\maxence\documents\github\smashdeva\sprites.c
+	<stdlib.h>
+	<stdio.h>
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	<SDL/SDL_ttf.h>
+	"constantes.h"
+	"player.h"
+	"obstacles.h"
+	"sprites.h"
+	"ia.h"
+	"stats.h"
+
+1543579411 source:c:\users\aymeric\documents\github\smashdeva\sprites.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>

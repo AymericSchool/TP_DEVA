@@ -22,7 +22,13 @@ void jouer(SDL_Surface* screen) {
     SDL_Surface *stage = NULL;
     SDL_Rect pos_stage = newRect(0,0,0,0);
 
-    char vie1[7], vie2[7], fps[15];
+    // Gestion des Joysticks
+    SDL_Joystick *pJoystick = NULL, *pJoystick2 = NULL;
+    int numJoy = SDL_NumJoysticks();
+    pJoystick = SDL_JoystickOpen(0);
+    pJoystick2 = SDL_JoystickOpen(1);
+
+    char vie1[15], vie2[15], fps[15];
 
     TTF_Font *font = NULL, *font2 = NULL;
     font = TTF_OpenFont(FONT_UBUNTU, 65);
@@ -52,7 +58,7 @@ void jouer(SDL_Surface* screen) {
 
     SDL_Rect pos_j2 = newRect(1000,150,96,64);
     Player p2 = newPlayer(2, j2, pos_j2, 1);
-    p2.speed = 4;
+    p2.speed = 8;
     loadStats(&p2);
 
     // Tableau d'obstacles
@@ -84,6 +90,7 @@ void jouer(SDL_Surface* screen) {
     // Boucle principale
     while (continuer) {
         SDL_PollEvent(&event);
+
         switch(event.type)
         {
         case SDL_QUIT:
@@ -148,7 +155,7 @@ void jouer(SDL_Surface* screen) {
             {
                         case J1_UP:
                             // Touche espace relachee
-                            if (p1.type == 1) p1.up = 0;
+                            //if (p1.type == 1) p1.up = 0;
                             break;
                         case J1_LEFT:
                             // Touche gauche relachee
@@ -191,6 +198,123 @@ void jouer(SDL_Surface* screen) {
             break;
         }
 
+        SDL_JoystickEventState(SDL_ENABLE);
+        // Gestion de la croix directionelle
+        if (event.type == SDL_JOYHATMOTION)
+        {
+            if (event.jhat.which == 0)
+            {
+                switch(event.jhat.value)
+                {
+                case SDL_HAT_LEFT:
+                    p1.left = 1;
+                    break;
+                case SDL_HAT_RIGHT:
+                    p1.right = 1;
+                    break;
+                case SDL_HAT_CENTERED:
+                    p1.left = 0;
+                    p1.right = 0;
+                    break;
+                default:
+                    break;
+                }
+            }
+            if (event.jhat.which == 1)
+            {
+                switch(event.jhat.value)
+                {
+                case SDL_HAT_LEFT:
+                    p2.left = 1;
+                    break;
+                case SDL_HAT_RIGHT:
+                    p2.right = 1;
+                    break;
+                case SDL_HAT_CENTERED:
+                    p2.left = 0;
+                    p2.right = 0;
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+
+        // Gestion des boutons
+        if (event.type == SDL_JOYBUTTONDOWN || SDL_JOYBUTTONUP)
+        {
+            if (event.jbutton.which == 0)
+            {
+                if (event.jbutton.state == SDL_PRESSED)
+                {
+                    switch (event.jbutton.button)
+                    {
+                    case 1:
+                        p1.up = 1;
+                        break;
+                    case 0:
+                        if (p1.canAttack && p1.type == 1) {
+                            p1.attack = 1;
+                            p1.canAttack = 0;
+                        }
+                         if (p1.type == 1) p1.buffer++;
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                if (event.jbutton.state == SDL_RELEASED)
+                {
+                    switch (event.jbutton.button)
+                    {
+                    case 1:
+                        p1.up = 0;
+                        break;
+                    case 0:
+                        if (p1.type == 1) p1.attack = 0;
+                        if (p1.type == 1) p1.canAttack = 1;
+                        if (p1.type == 1) p1.buffer = 0;
+                        break;
+                    }
+                }
+            }
+            if (event.jbutton.which == 1)
+            {
+                if (event.jbutton.state == SDL_PRESSED)
+                {
+                    switch (event.jbutton.button)
+                    {
+                    case 1:
+                        p2.up = 1;
+                        break;
+                    case 0:
+                        if (p2.canAttack && p2.type == 1) {
+                            p2.attack = 1;
+                            p2.canAttack = 0;
+                        }
+                         if (p2.type == 1) p2.buffer++;
+                        break;
+                    default:
+                        break;
+                    }
+                }
+                if (event.jbutton.state == SDL_RELEASED)
+                {
+                    switch (event.jbutton.button)
+                    {
+                    case 1:
+                        p2.up = 0;
+                        break;
+                    case 0:
+                        if (p2.type == 1) p2.attack = 0;
+                        if (p2.type == 1) p2.canAttack = 1;
+                        if (p2.type == 1) p2.buffer = 0;
+                        break;
+                    }
+                }
+            }
+        }
+
     // Deplacements
         move_ia(&p1, &p2);
         moving(&p1, obstacles);
@@ -219,7 +343,7 @@ void jouer(SDL_Surface* screen) {
         temps = tempsIni;
         tempsIni = SDL_GetTicks();
         nbFps = 1000 / (tempsIni - temps);
-        sprintf(fps, "FPS : %d", nbFps);
+        sprintf(fps, "FPS : %d", p1.buffer);
         text3 = TTF_RenderText_Solid(font2, fps, couleur_blanc);
 
          // Affichage du stage
@@ -241,11 +365,15 @@ void jouer(SDL_Surface* screen) {
         SDL_Flip(screen);
         }
 
+        SDL_JoystickClose(pJoystick);
+        SDL_JoystickClose(pJoystick2);
+
     // Liberation memoire
-    SDL_FreeSurface(p1.surface);
-    SDL_FreeSurface(p2.surface);
+    SDL_FreeSurface(j1);
+    SDL_FreeSurface(j2);
     SDL_FreeSurface(text1);
     SDL_FreeSurface(text2);
+    SDL_FreeSurface(text3);
     SDL_FreeSurface(p1.icone);
     SDL_FreeSurface(p2.icone);
     SDL_FreeSurface(stage);
