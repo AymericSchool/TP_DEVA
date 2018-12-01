@@ -11,6 +11,7 @@
 #include "ia.h"
 #include "stats.h"
 
+// Affichage le fond derriere le perso (optimisation)
 void affFond(SDL_Surface* screen, SDL_Surface* fond, SDL_Rect* rect)
 {
     SDL_Rect rFond = newRect(rect->x, rect->y, rect->h, rect->w);

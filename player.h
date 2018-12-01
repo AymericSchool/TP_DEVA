@@ -46,6 +46,8 @@ typedef struct {
     int sensPropulsion;
     int timeBeforeLittleHit;
 
+    int life;
+
     // STATS
     int victory;
     int defeat;

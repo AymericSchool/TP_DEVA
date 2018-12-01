@@ -37,12 +37,20 @@ int main(int argc, char *argv[])
 
     // Creation des surfaces
     SDL_Surface *screen = NULL, *menu = NULL, *text = NULL, *ver = NULL;
+
+    // Police
     TTF_Font *font = NULL, *font2 = NULL;
     font = TTF_OpenFont(FONT_ECRAN_TITRE, 30);
     font2 = TTF_OpenFont(FONT_ECRAN_TITRE, 10);
+
+    // Couleur
     SDL_Color couleur = {255, 255, 255, 0};
+
+    // Position du texte
     SDL_Rect posText = newRect(430, 500, 0, 0);
     SDL_Rect posVer = newRect(1140, 700, 0, 0);
+
+    // Textes
     text = TTF_RenderText_Blended(font, "Appuyez sur ENTRER", couleur);
     ver = TTF_RenderText_Solid(font2, "Version 0.2.3", couleur);
     int temps = 0, tempsIni = 0, aff = 0;
@@ -64,7 +72,7 @@ int main(int argc, char *argv[])
 
     while(continuer)
     {
-        SDL_PollEvent(&event);
+        SDL_WaitEvent(&event);
         switch(event.type)
         {
             case SDL_QUIT:
@@ -110,7 +118,7 @@ int main(int argc, char *argv[])
             }
         }
 
-
+        // Affichage
         SDL_Flip(screen);
     }
 

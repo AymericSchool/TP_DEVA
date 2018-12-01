@@ -65,19 +65,26 @@ void moving(Player *p, SDL_Rect* obstacles)
         }
     // Saut
     if (p->up) {
+        // Creation d'un double temporaire qui regarde si la position est bien sous collision
         temp.y += p->speed;
         if (colide(temp, obstacles)) {
+                // Si le joueur est sur le sol, on update sa hauteur max de saut
             p->h = p->hitbox.y - p->jump;
         }
-        if (p->hitbox.y > p->h) {
+        if (p->hitbox.y > p->h && p->hitbox.y > 0) {
+            // Tant que le joueur est sous sa hauteur max, il monte
             p->hitbox.y-=JUMP_SPEED;
         }
+        // Reset sa hauteur max, le joueur est donc sous gravite
         else p->h = HEIGHT_GAME - p->hitbox.h;
     }
     else p->h = HEIGHT_GAME - p->hitbox.h;
+
     // Gauche
     if (p->left) {
+        // Creation d'un double temporaire qui regarde si la position est bien sous collision
         temp.x-=p->speed;
+
         if (!colide(temp, obstacles)) {
                 p->hitbox.x-=p->speed;
                 p->distance_travelled++;
@@ -85,6 +92,7 @@ void moving(Player *p, SDL_Rect* obstacles)
     }
     // Droite
     if (p->right) {
+            // Creation d'un double temporaire qui regarde si la position est bien sous collision
         temp.x+=p->speed;
         if (temp.x < WIDTH_GAME - (*p).hitbox.w && !colide(temp, obstacles))  {
                 p->hitbox.x+=p->speed;
@@ -93,6 +101,7 @@ void moving(Player *p, SDL_Rect* obstacles)
     }
     // Chute
     temp.y+=p->speed;
+    // Creation d'un double temporaire qui regarde si la position est bien sous collision
     if (!colide(temp, obstacles))  p->hitbox.y+=FALL_SPEED;
 }
 // Initialise un player
@@ -122,6 +131,7 @@ Player newPlayer(int num, SDL_Surface *surface, SDL_Rect hitbox, int type)
     p.victory = 0;
     p.defeat = 0;
     p.distance_travelled = 0;
+    p.life = 5; // Nombre de vie du joueur
     return p;
 }
 void hit(Player *p1, Player *p2)

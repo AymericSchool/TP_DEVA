@@ -12,7 +12,7 @@ fonction qui ajoute un nouvel obstacle
 
 #include "obstacles.h"
 
-
+// Fonction qui créé un rect rapidement
 SDL_Rect newRect(int x, int y, int h, int w) {
     SDL_Rect r;
     r.x = x;

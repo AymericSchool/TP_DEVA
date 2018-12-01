@@ -16,33 +16,48 @@ tout commence ici
 #include "sprites.h"
 #include "ia.h"
 #include "stats.h"
+#include "narrow.h"
 
 void jouer(SDL_Surface* screen) {
-    SDL_Surface *j1 = NULL, *j2 = NULL, *green_box = NULL, *text1 = NULL, *text2 = NULL, *text3 = NULL;
+    // Creation des surfaces
+    SDL_Surface *j1 = NULL, *j2 = NULL, *green_box = NULL, *text1 = NULL, *text2 = NULL, *text3 = NULL, *life1, *life2;
     SDL_Surface *stage = NULL;
     SDL_Rect pos_stage = newRect(0,0,0,0);
+    SDL_Rect pos_narrow = newRect(0,0,HEIGHT_GAME,WIDTH_GAME);
 
-    char vie1[7], vie2[7], fps[15];
+    // Pour les textes
+    char vie1[8], vie2[8], fps[8], nbLife1[16], nbLife2[16];
 
+    // Polices
     TTF_Font *font = NULL, *font2 = NULL;
     font = TTF_OpenFont(FONT_UBUNTU, 65);
     font2 = TTF_OpenFont(FONT_UBUNTU, 20);
 
+    // Couleurs
     SDL_Color couleur_blanc = {255, 255, 255, 0};
     SDL_Color couleur_jaune = {255, 255, 0, 0};
     SDL_Color couleur_orange = {255, 128, 0, 0};
     SDL_Color couleur_rouge = {255, 0, 0, 0};
 
-    SDL_Rect pos_text1 = newRect(200, 600, 100, 100);
-    SDL_Rect pos_text2 = newRect(1000, 600, 100, 100);
+    //Position des textes
+    SDL_Rect pos_text1 = newRect(200, 600, 0, 0);
+    SDL_Rect pos_text2 = newRect(1000, 600, 0, 0);
+    SDL_Rect pos_fps_counter = newRect(WIDTH_GAME - 100, 0, 0, 0);
+    SDL_Rect pos_life1 = newRect(200, 700, 0, 0);
+    SDL_Rect pos_life2 = newRect(1000, 700, 0, 0);
 
+    // Position des icones des perso
     SDL_Rect pos_icone1 = newRect(50, 600, 100, 100);
     SDL_Rect pos_icone2 = newRect(850, 600, 100, 100);
 
+    // Variable principale
     int continuer = 1;
+
+    // Variables pour le compteur de FPS
     int temps = 0, tempsIni = 0, nbFps;
 
-    SDL_Rect pos_fps_counter = newRect(WIDTH_GAME - 100, 0, 0, 0);
+    // Variable pour le narrow
+    int tempsNarrow = SDL_GetTicks();
 
     // Creation du Rect des persos
     SDL_Rect pos_j1 = newRect(200,150,96,64);
@@ -78,6 +93,7 @@ void jouer(SDL_Surface* screen) {
     // Creation de l'event, et variable de la boucle principale
     SDL_Event event;
 
+    // Affichage du stage en arriere plan
     SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
     SDL_BlitSurface(stage, NULL, screen, &pos_stage);
 
@@ -133,6 +149,16 @@ void jouer(SDL_Surface* screen) {
                             p2.canAttack = 0;
                         }
                         if (p2.type == 1) p2.buffer++;
+                        break;
+
+                    case SDLK_KP_PLUS:
+                        updateNarrow(&pos_narrow, 1);
+                        break;
+                    case SDLK_KP_MINUS:
+                        updateNarrow(&pos_narrow, -1);
+                        break;
+                    case SDLK_KP_DIVIDE:
+                        updateNarrow(&pos_narrow, 0);
                         break;
 
             case SDLK_ESCAPE:
@@ -195,12 +221,42 @@ void jouer(SDL_Surface* screen) {
         move_ia(&p1, &p2);
         moving(&p1, obstacles);
         moving(&p2, obstacles);
+
     // Coups
         hit(&p1, &p2);
+
+    // Mort par le Narrow
+        if (deadlyNarrow(&p1, &pos_narrow)) {
+                p1.life--;
+                updateNarrow(&pos_narrow, 0);
+                p1.hitbox.x = 200;
+                p1.hitbox.y = 150;
+                p1.hp = p1.hpMax;
+                p1.estPropulse = 0;
+                // Affichage du stage en arriere plan
+                SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
+                SDL_BlitSurface(stage, NULL, screen, &pos_stage);
+
+        }
+        if (deadlyNarrow(&p2, &pos_narrow)) {
+                p2.life--;
+                updateNarrow(&pos_narrow, 0);
+                p2.hitbox.x = 1000;
+                p2.hitbox.y = 150;
+                p2.hp = p2.hpMax;
+                p2.estPropulse = 0;
+                // Affichage du stage en arriere plan
+                SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
+                SDL_BlitSurface(stage, NULL, screen, &pos_stage);
+        }
+
     // HUD
         sprintf(vie1, "%d%%", p1.hpMax - p1.hp);
         sprintf(vie2, "%d%%", p2.hpMax - p2.hp);
+        sprintf(nbLife1, "Vie(s) : %d", p1.life);
+        sprintf(nbLife2, "Vie(s) : %d", p2.life);
 
+        // Affichage des PV des persos
         if (p1.hpMax - p1.hp < 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_blanc);
         if (p1.hpMax - p1.hp > 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_jaune);
         if (p1.hpMax - p1.hp > 50) text1 = TTF_RenderText_Solid(font, vie1, couleur_orange);
@@ -210,6 +266,9 @@ void jouer(SDL_Surface* screen) {
         if (p2.hpMax - p2.hp > 25) text2 = TTF_RenderText_Solid(font, vie2, couleur_jaune);
         if (p2.hpMax - p2.hp > 50) text2 = TTF_RenderText_Solid(font, vie2, couleur_orange);
         if (p2.hpMax - p2.hp > 75) text2 = TTF_RenderText_Solid(font, vie2, couleur_rouge);
+
+        life1 = TTF_RenderText_Solid(font2, nbLife1, couleur_blanc);
+        life2 = TTF_RenderText_Solid(font2, nbLife2, couleur_blanc);
 
         // Fichiers
         saveStats(p1);
@@ -222,6 +281,13 @@ void jouer(SDL_Surface* screen) {
         sprintf(fps, "FPS : %d", nbFps);
         text3 = TTF_RenderText_Solid(font2, fps, couleur_blanc);
 
+        // Le narrow retrecit (normal)
+        tempsNarrow = SDL_GetTicks();
+        if (tempsNarrow % 50 == 0) updateNarrow(&pos_narrow, -1);
+
+        // Affichage du narrow
+        displayNarrow(screen, &pos_narrow);
+
          // Affichage du stage
         affFond(screen, stage, &p1.hitbox);
         affFond(screen, stage, &p2.hitbox);
@@ -230,7 +296,6 @@ void jouer(SDL_Surface* screen) {
         affFond(screen, stage, &pos_fps_counter);
 
         // Affichage des sprites et des texts
-
         SDL_BlitSurface(p1.surface, NULL, screen, &p1.hitbox);
         SDL_BlitSurface(p2.surface, NULL, screen, &p2.hitbox);
         SDL_BlitSurface(green_box, NULL, screen, &obstacles[2]);
@@ -239,6 +304,9 @@ void jouer(SDL_Surface* screen) {
         SDL_BlitSurface(text1, NULL, screen, &pos_text1);
         SDL_BlitSurface(text2, NULL, screen, &pos_text2);
         SDL_BlitSurface(text3, NULL, screen, &pos_fps_counter);
+        SDL_BlitSurface(life1, NULL, screen, &pos_life1);
+        SDL_BlitSurface(life2, NULL, screen, &pos_life2);
+
         SDL_Flip(screen);
         }
 
@@ -247,6 +315,9 @@ void jouer(SDL_Surface* screen) {
     SDL_FreeSurface(p2.surface);
     SDL_FreeSurface(text1);
     SDL_FreeSurface(text2);
+    SDL_FreeSurface(life1);
+    SDL_FreeSurface(life2);
+    SDL_FreeSurface(text3);
     SDL_FreeSurface(p1.icone);
     SDL_FreeSurface(p2.icone);
     SDL_FreeSurface(stage);

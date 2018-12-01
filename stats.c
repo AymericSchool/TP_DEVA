@@ -7,6 +7,7 @@
 #include "constantes.h"
 #include "player.h"
 
+// Sauvegarde les stats d'un perso
 void saveStats(Player p)
 {
     FILE *f = NULL;
@@ -17,6 +18,7 @@ void saveStats(Player p)
     fclose(f);
 }
 
+// Charge les stats d'un perso
 void loadStats(Player *p)
 {
     FILE *f = NULL;
@@ -27,6 +29,7 @@ void loadStats(Player *p)
     fclose(f);
 }
 
+// Reset les stats d'un perso
 void resetStats(Player *p)
 {
     p->distance_travelled = 0;
