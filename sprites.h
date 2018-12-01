@@ -10,6 +10,7 @@ stocke les chemins des images du jeu
 #define BLUE_BOX            "res/box.jpg"
 #define GREEN_BOX          "res/green_box.jpg"
 #define STAGE_01                "res/stage_01.jpg"
+#define STAGE_02                "res/stage_02.jpg"
 
 // Droid
 #define DROID_ICONE     "res/droid/droid_icone.jpg"

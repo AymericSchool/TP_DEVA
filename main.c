@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 
     // Textes
     text = TTF_RenderText_Blended(font, "Appuyez sur ENTRER", couleur);
-    ver = TTF_RenderText_Solid(font2, "Version 0.2.3", couleur);
+    ver = TTF_RenderText_Solid(font2, "Version 0.3.1", couleur);
     int temps = 0, tempsIni = 0, aff = 0;
 
     // Creation du rect et surface du menu

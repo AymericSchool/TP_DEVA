@@ -20,10 +20,24 @@ tout commence ici
 
 void jouer(SDL_Surface* screen) {
     // Creation des surfaces
-    SDL_Surface *j1 = NULL, *j2 = NULL, *green_box = NULL, *text1 = NULL, *text2 = NULL, *text3 = NULL, *life1, *life2;
-    SDL_Surface *stage = NULL;
-    SDL_Rect pos_stage = newRect(0,0,0,0);
+    SDL_Surface *j1 = NULL, *j2 = NULL, *text1 = NULL, *text2 = NULL, *text3 = NULL, *life1, *life2;
+
+    // Load du stage
+    int stageChoisi = 1;
+    Stage st = loadStage(stageChoisi);
+
     SDL_Rect pos_narrow = newRect(0,0,HEIGHT_GAME,WIDTH_GAME);
+
+    // Narrow
+    SDL_Surface *ligne = NULL, *colonne = NULL;
+    SDL_Rect position;
+        // Ligne
+    ligne = SDL_CreateRGBSurface(SDL_HWSURFACE, WIDTH_GAME, 1, 32, 0, 0, 0, 0);
+    SDL_FillRect(ligne, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+        // Colonne
+    colonne = SDL_CreateRGBSurface(SDL_HWSURFACE, 1, HEIGHT_GAME, 32, 0, 0, 0, 0);
+    SDL_FillRect(colonne, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+      int i;
 
     // Pour les textes
     char vie1[8], vie2[8], fps[8], nbLife1[16], nbLife2[16];
@@ -60,23 +74,15 @@ void jouer(SDL_Surface* screen) {
     int tempsNarrow = SDL_GetTicks();
 
     // Creation du Rect des persos
-    SDL_Rect pos_j1 = newRect(200,150,96,64);
+    SDL_Rect pos_j1 = newRect(st.x1,st.y1,96,64);
     Player p1 = newPlayer(1, j1, pos_j1, 1);
     p1.speed = 8;
     loadStats(&p1);
 
-    SDL_Rect pos_j2 = newRect(1000,150,96,64);
+    SDL_Rect pos_j2 = newRect(st.x2,st.y2,96,64);
     Player p2 = newPlayer(2, j2, pos_j2, 1);
     p2.speed = 8;
     loadStats(&p2);
-
-    // Tableau d'obstacles
-    SDL_Rect *obstacles;
-    obstacles = malloc(sizeof(SDL_Rect) * 100);
-
-    // Creation des obstacles
-    obstacles[0] = newRect(0,HEIGHT_GAME - 150,50,WIDTH_GAME); // sol
-    obstacles[2] = newRect(500,200,100,100); // box verte
 
      // Chargement des images
     p1.surface = IMG_Load(DROID_00);
@@ -84,8 +90,9 @@ void jouer(SDL_Surface* screen) {
     p2.surface = IMG_Load(KIT_00);
     p2.icone = IMG_Load(KIT_ICONE);
 
-    green_box = IMG_Load(GREEN_BOX);
-    stage = IMG_Load(STAGE_01);
+
+
+
 
     // Rester appuye sur la touche
     SDL_EnableKeyRepeat(10,10);
@@ -95,7 +102,7 @@ void jouer(SDL_Surface* screen) {
 
     // Affichage du stage en arriere plan
     SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
-    SDL_BlitSurface(stage, NULL, screen, &pos_stage);
+    SDL_BlitSurface(st.image, NULL, screen, &st.position);
 
     // Boucle principale
     while (continuer) {
@@ -219,8 +226,8 @@ void jouer(SDL_Surface* screen) {
 
     // Deplacements
         move_ia(&p1, &p2);
-        moving(&p1, obstacles);
-        moving(&p2, obstacles);
+        moving(&p1, st.obstacles);
+        moving(&p2, st.obstacles);
 
     // Coups
         hit(&p1, &p2);
@@ -229,25 +236,25 @@ void jouer(SDL_Surface* screen) {
         if (deadlyNarrow(&p1, &pos_narrow)) {
                 p1.life--;
                 updateNarrow(&pos_narrow, 0);
-                p1.hitbox.x = 200;
-                p1.hitbox.y = 150;
+                p1.hitbox.x = st.x1;
+                p1.hitbox.y = st.y1;
                 p1.hp = p1.hpMax;
                 p1.estPropulse = 0;
                 // Affichage du stage en arriere plan
                 SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
-                SDL_BlitSurface(stage, NULL, screen, &pos_stage);
+                SDL_BlitSurface(st.image, NULL, screen, &st.position);
 
         }
         if (deadlyNarrow(&p2, &pos_narrow)) {
                 p2.life--;
                 updateNarrow(&pos_narrow, 0);
-                p2.hitbox.x = 1000;
-                p2.hitbox.y = 150;
+                p2.hitbox.x = st.x2;
+                p2.hitbox.y = st.y2;
                 p2.hp = p2.hpMax;
                 p2.estPropulse = 0;
                 // Affichage du stage en arriere plan
                 SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
-                SDL_BlitSurface(stage, NULL, screen, &pos_stage);
+                SDL_BlitSurface(st.image, NULL, screen, &st.position);
         }
 
     // HUD
@@ -286,19 +293,38 @@ void jouer(SDL_Surface* screen) {
         if (tempsNarrow % 50 == 0) updateNarrow(&pos_narrow, -1);
 
         // Affichage du narrow
-        displayNarrow(screen, &pos_narrow);
+        for (i = 0; i < pos_narrow.x; i++)
+        {
+            // Affichage des lignes (haut)
+            position.x = 0;
+            position.y = i;
+            SDL_BlitSurface(ligne, NULL, screen, &position);
+
+            // Affichage des lignes (bas)
+            position.x = 0;
+            position.y = HEIGHT_GAME - i;
+            SDL_BlitSurface(ligne, NULL, screen, &position);
+
+            // Affichage des lignes (gauche)
+            position.x = i;
+            position.y = 0;
+            SDL_BlitSurface(colonne, NULL, screen, &position);
+
+            // Affichage des lignes (droite)
+            position.x = WIDTH_GAME - i;
+            position.y = 0;
+            SDL_BlitSurface(colonne, NULL, screen, &position);
+        }
 
          // Affichage du stage
-        affFond(screen, stage, &p1.hitbox);
-        affFond(screen, stage, &p2.hitbox);
-        affFond(screen, stage, &pos_text1);
-        affFond(screen, stage, &pos_text2);
-        affFond(screen, stage, &pos_fps_counter);
+        affFond(screen, st.image, &p1.hitbox);
+        affFond(screen, st.image, &p2.hitbox);
+
+
 
         // Affichage des sprites et des texts
         SDL_BlitSurface(p1.surface, NULL, screen, &p1.hitbox);
         SDL_BlitSurface(p2.surface, NULL, screen, &p2.hitbox);
-        SDL_BlitSurface(green_box, NULL, screen, &obstacles[2]);
         SDL_BlitSurface(p1.icone, NULL, screen, &pos_icone1);
         SDL_BlitSurface(p2.icone, NULL, screen, &pos_icone2);
         SDL_BlitSurface(text1, NULL, screen, &pos_text1);
@@ -320,6 +346,7 @@ void jouer(SDL_Surface* screen) {
     SDL_FreeSurface(text3);
     SDL_FreeSurface(p1.icone);
     SDL_FreeSurface(p2.icone);
-    SDL_FreeSurface(stage);
-    SDL_FreeSurface(green_box);
+    SDL_FreeSurface(ligne);
+    SDL_FreeSurface(colonne);
+    SDL_FreeSurface(st.image);
 }

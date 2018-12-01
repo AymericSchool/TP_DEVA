@@ -55,49 +55,6 @@ void updateNarrow(SDL_Rect *zone, int arg)
     }
 }
 
-// Affiche les lignes
-void displayNarrow(SDL_Surface *screen, SDL_Rect *zone)
-{
-    // Creation des surfaces
-    SDL_Surface *ligne = NULL, *colonne = NULL;
-    SDL_Rect position;
-    // Ligne
-    ligne = SDL_CreateRGBSurface(SDL_HWSURFACE, WIDTH_GAME, 1, 32, 0, 0, 0, 0);
-    SDL_FillRect(ligne, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-    // Colonne
-    colonne = SDL_CreateRGBSurface(SDL_HWSURFACE, 1, HEIGHT_GAME, 32, 0, 0, 0, 0);
-    SDL_FillRect(colonne, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-
-    int i;
-
-    for (i = 0; i < zone->x; i++)
-    {
-        // Affichage des lignes (haut)
-        position.x = 0;
-        position.y = i;
-        SDL_BlitSurface(ligne, NULL, screen, &position);
-
-        // Affichage des lignes (bas)
-        position.x = 0;
-        position.y = HEIGHT_GAME - i;
-        SDL_BlitSurface(ligne, NULL, screen, &position);
-
-        // Affichage des lignes (gauche)
-        position.x = i;
-        position.y = 0;
-        SDL_BlitSurface(colonne, NULL, screen, &position);
-
-        // Affichage des lignes (droite)
-        position.x = WIDTH_GAME - i;
-        position.y = 0;
-        SDL_BlitSurface(colonne, NULL, screen, &position);
-    }
-
-    SDL_Flip(screen);
-    SDL_FreeSurface(ligne);
-    SDL_FreeSurface(colonne);
-}
-
 // Regarde s'il faut tuer le perso
 bool deadlyNarrow(Player *p, SDL_Rect *zone)
 {
