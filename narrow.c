@@ -33,10 +33,12 @@ void updateNarrow(SDL_Rect *zone, int arg)
     switch(arg)
     {
     case -1:
-        zone->x++;
-        zone->y++;
-        zone->h-=2;
-        zone->w-=2;
+        if (zone->x < LIMIT_NARROW) {
+            zone->x++;
+            zone->y++;
+            zone->h-=2;
+            zone->w-=2;
+        }
         break;
     case 0:
         zone->x = 0;

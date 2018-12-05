@@ -20,11 +20,14 @@ tout commence ici
 
 void jouer(SDL_Surface* screen) {
     // Creation des surfaces
-    SDL_Surface *j1 = NULL, *j2 = NULL, *text1 = NULL, *text2 = NULL, *text3 = NULL, *life1, *life2;
+    SDL_Surface *j1 = NULL, *j2 = NULL, *text1 = NULL, *text2 = NULL, *text3 = NULL, *life1, *life2, *surface_debug;
 
     // Load du stage
-    int stageChoisi = 1;
+    int stageChoisi = 2;
     Stage st = loadStage(stageChoisi);
+
+    // Niveau du bot
+    int niveauBot = 1;
 
     SDL_Rect pos_narrow = newRect(0,0,HEIGHT_GAME,WIDTH_GAME);
 
@@ -40,7 +43,7 @@ void jouer(SDL_Surface* screen) {
       int i;
 
     // Pour les textes
-    char vie1[8], vie2[8], fps[8], nbLife1[16], nbLife2[16];
+    char vie1[8], vie2[8], fps[8], nbLife1[16], nbLife2[16], text_debug[128];
 
     // Polices
     TTF_Font *font = NULL, *font2 = NULL;
@@ -59,6 +62,7 @@ void jouer(SDL_Surface* screen) {
     SDL_Rect pos_fps_counter = newRect(WIDTH_GAME - 100, 0, 0, 0);
     SDL_Rect pos_life1 = newRect(200, 700, 0, 0);
     SDL_Rect pos_life2 = newRect(1000, 700, 0, 0);
+    SDL_Rect pos_debug = newRect(0, 0, 0, 0);
 
     // Position des icones des perso
     SDL_Rect pos_icone1 = newRect(50, 600, 100, 100);
@@ -76,12 +80,10 @@ void jouer(SDL_Surface* screen) {
     // Creation du Rect des persos
     SDL_Rect pos_j1 = newRect(st.x1,st.y1,96,64);
     Player p1 = newPlayer(1, j1, pos_j1, 1);
-    p1.speed = 8;
     loadStats(&p1);
 
     SDL_Rect pos_j2 = newRect(st.x2,st.y2,96,64);
-    Player p2 = newPlayer(2, j2, pos_j2, 1);
-    p2.speed = 8;
+    Player p2 = newPlayer(2, j2, pos_j2, 2);
     loadStats(&p2);
 
      // Chargement des images
@@ -89,10 +91,6 @@ void jouer(SDL_Surface* screen) {
     p1.icone = IMG_Load(DROID_ICONE);
     p2.surface = IMG_Load(KIT_00);
     p2.icone = IMG_Load(KIT_ICONE);
-
-
-
-
 
     // Rester appuye sur la touche
     SDL_EnableKeyRepeat(10,10);
@@ -137,6 +135,11 @@ void jouer(SDL_Surface* screen) {
                         if (p1.type == 1) p1.buffer++;
                         break;
 
+                    case J1_SHIELD:
+                        // Touche shield
+                        p1.shield = true;
+                        break;
+
                     case J2_UP:
                         // Touche espace pressee
                         if (p2.type == 1) p2.up = 1;
@@ -156,6 +159,11 @@ void jouer(SDL_Surface* screen) {
                             p2.canAttack = 0;
                         }
                         if (p2.type == 1) p2.buffer++;
+                        break;
+
+                    case J2_SHIELD:
+                        // Touche shield
+                        p2.shield = true;
                         break;
 
                     case SDLK_KP_PLUS:
@@ -198,6 +206,11 @@ void jouer(SDL_Surface* screen) {
                             if (p1.type == 1) p1.buffer = 0;
                             break;
 
+                    case J1_SHIELD:
+                        // Touche shield
+                        p1.shield = false;
+                        break;
+
                     case J2_UP:
                         // Touche espace relachee
                         if (p2.type == 1) p2.up = 0;
@@ -216,6 +229,11 @@ void jouer(SDL_Surface* screen) {
                         if (p2.type == 1) p2.buffer = 0;
                         break;
 
+                    case J2_SHIELD:
+                        // Touche shield
+                        p2.shield = false;
+                        break;
+
                 default:
                     break;
             }
@@ -225,7 +243,7 @@ void jouer(SDL_Surface* screen) {
         }
 
     // Deplacements
-        move_ia(&p1, &p2);
+        move_ia(&p1, &p2, niveauBot);
         moving(&p1, st.obstacles);
         moving(&p2, st.obstacles);
 
@@ -262,6 +280,7 @@ void jouer(SDL_Surface* screen) {
         sprintf(vie2, "%d%%", p2.hpMax - p2.hp);
         sprintf(nbLife1, "Vie(s) : %d", p1.life);
         sprintf(nbLife2, "Vie(s) : %d", p2.life);
+        sprintf(text_debug, "Shield : %d, Stun : %d, TimeShield : %d", p1.shield, p1.stun, p1.timeShield);
 
         // Affichage des PV des persos
         if (p1.hpMax - p1.hp < 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_blanc);
@@ -276,6 +295,7 @@ void jouer(SDL_Surface* screen) {
 
         life1 = TTF_RenderText_Solid(font2, nbLife1, couleur_blanc);
         life2 = TTF_RenderText_Solid(font2, nbLife2, couleur_blanc);
+        surface_debug = TTF_RenderText_Solid(font2, text_debug, couleur_jaune);
 
         // Fichiers
         saveStats(p1);
@@ -291,6 +311,16 @@ void jouer(SDL_Surface* screen) {
         // Le narrow retrecit (normal)
         tempsNarrow = SDL_GetTicks();
         if (tempsNarrow % 50 == 0) updateNarrow(&pos_narrow, -1);
+
+
+
+        // Affichage du stage
+        affFond(screen, st.image, &p1.hitbox);
+        affFond(screen, st.image, &p2.hitbox);
+        affFond(screen, st.image, &pos_text1);
+        affFond(screen, st.image, &pos_text2);
+        affFond(screen, st.image, &pos_fps_counter);
+        affFond(screen, st.image, &pos_debug);
 
         // Affichage du narrow
         for (i = 0; i < pos_narrow.x; i++)
@@ -316,12 +346,6 @@ void jouer(SDL_Surface* screen) {
             SDL_BlitSurface(colonne, NULL, screen, &position);
         }
 
-         // Affichage du stage
-        affFond(screen, st.image, &p1.hitbox);
-        affFond(screen, st.image, &p2.hitbox);
-
-
-
         // Affichage des sprites et des texts
         SDL_BlitSurface(p1.surface, NULL, screen, &p1.hitbox);
         SDL_BlitSurface(p2.surface, NULL, screen, &p2.hitbox);
@@ -330,6 +354,7 @@ void jouer(SDL_Surface* screen) {
         SDL_BlitSurface(text1, NULL, screen, &pos_text1);
         SDL_BlitSurface(text2, NULL, screen, &pos_text2);
         SDL_BlitSurface(text3, NULL, screen, &pos_fps_counter);
+        SDL_BlitSurface(surface_debug, NULL, screen, &pos_debug);
         SDL_BlitSurface(life1, NULL, screen, &pos_life1);
         SDL_BlitSurface(life2, NULL, screen, &pos_life2);
 

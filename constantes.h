@@ -12,5 +12,6 @@ constantes du jeu
 #define TITLE_GAME          "Smash DEVA"
 #define FONT_UBUNTU     "res/font_ubuntu.ttf"
 #define FONT_ECRAN_TITRE    "res/Display.ttf"
+#define LIMIT_NARROW        150
 
 #endif // CONSTANTES_H_INCLUDED

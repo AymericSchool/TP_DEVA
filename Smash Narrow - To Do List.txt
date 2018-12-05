@@ -1,0 +1,42 @@
+Mode Temps Limité
+	Le jeu se termine quand le temps est écoulé
+
+Finir Mode Vies
+	Conditions de victoires/défaites
+
+Coups Spéciaux ?
+	Perso la flemme, mais pas ultra dur à rajouter	
+
+Ajouter des stages
+	Au moins 2 ou 3
+
+Menu du jeu
+	Menu d'accueil
+	Choix du mode de jeu / Perso / nombre de joueurs / Difficulté / Stage
+	Vue des stats avec option pour les resets
+	Quitter le jeu
+		+ Ajouter un "ecran" transition pour affichier les controles ?
+
+Animations
+	Walk / Run
+	Die (= Stun)
+	Jump
+	Hit
+	
+Personnages
+	Mettre leurs caracteristiques propres
+
+
+
+Repartition
+	Aymeric
+		Mode Temps Limité + Finir Mode Vies
+		Ajouter des Stages
+		Personnages
+		Coups Speciaux ? (apres avoir eu le game design)
+	
+	Maxence
+		Menu du jeu
+		Coup Speciaux ? (Au moins le game design, je les mettrai)
+		Animations
+

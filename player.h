@@ -6,18 +6,21 @@
 #define J1_RIGHT            SDLK_d
 #define J1_LEFT                 SDLK_a
 #define J1_ATTACK           SDLK_SPACE
+#define J1_SHIELD               SDLK_LALT
 
 // Touches Clavier J2
 #define J2_UP                  SDLK_UP
 #define J2_RIGHT            SDLK_RIGHT
 #define J2_LEFT                 SDLK_LEFT
 #define J2_ATTACK           SDLK_KP0
+#define J2_SHIELD               SDLK_KP3
 
 // Constante de combat
 #define BIG_ATTACK                              50
 #define FALL_SPEED                              8
 #define JUMP_SPEED                              16
-#define TIME_BEFORE_LITTLE_HIT      25
+#define TIME_BEFORE_LITTLE_HIT      24
+#define TIME_SHIELD                             150
 
 #include <stdbool.h>
 
@@ -47,6 +50,10 @@ typedef struct {
     int timeBeforeLittleHit;
 
     int life;
+    bool surSol;
+    bool shield;
+    int timeShield;
+    bool stun;
 
     // STATS
     int victory;

@@ -57,52 +57,80 @@ void moving(Player *p, SDL_Rect* obstacles)
         {
             p->right = 0;
             p->left = 0;
+            p->stun = true;
             p->hitbox.y-= JUMP_SPEED;
             p->hitbox.x += 2*p->speed * p->sensPropulsion;
             if (p->hitbox.x > WIDTH_GAME - p->hitbox.w) p->hitbox.x = WIDTH_GAME - p->hitbox.w;
             p->forcePropulsion--;
-            if (p->forcePropulsion == 0) p->estPropulse = 0;
+            if (p->forcePropulsion == 0) {
+                    p->estPropulse = 0;
+                    p->stun = false;
+            }
         }
     // Saut
-    if (p->up) {
-        // Creation d'un double temporaire qui regarde si la position est bien sous collision
-        temp.y += p->speed;
-        if (colide(temp, obstacles)) {
-                // Si le joueur est sur le sol, on update sa hauteur max de saut
-            p->h = p->hitbox.y - p->jump;
-        }
-        if (p->hitbox.y > p->h && p->hitbox.y > 0) {
-            // Tant que le joueur est sous sa hauteur max, il monte
-            p->hitbox.y-=JUMP_SPEED;
-        }
-        // Reset sa hauteur max, le joueur est donc sous gravite
-        else p->h = HEIGHT_GAME - p->hitbox.h;
-    }
-    else p->h = HEIGHT_GAME - p->hitbox.h;
-
-    // Gauche
-    if (p->left) {
-        // Creation d'un double temporaire qui regarde si la position est bien sous collision
-        temp.x-=p->speed;
-
-        if (!colide(temp, obstacles)) {
-                p->hitbox.x-=p->speed;
-                p->distance_travelled++;
-        }
-    }
-    // Droite
-    if (p->right) {
+    if (p->stun == false && p->shield == false) {
+        if (p->up) {
             // Creation d'un double temporaire qui regarde si la position est bien sous collision
-        temp.x+=p->speed;
-        if (temp.x < WIDTH_GAME - (*p).hitbox.w && !colide(temp, obstacles))  {
-                p->hitbox.x+=p->speed;
-                p->distance_travelled++;
+            temp.y += p->speed;
+            if (colide(temp, obstacles)) {
+                    // Si le joueur est sur le sol, on update sa hauteur max de saut
+                p->h = p->hitbox.y - p->jump;
+            }
+            if (p->hitbox.y > p->h && p->hitbox.y > 0) {
+                // Tant que le joueur est sous sa hauteur max, il monte
+                p->hitbox.y-=JUMP_SPEED;
+            }
+            // Reset sa hauteur max, le joueur est donc sous gravite
+            else p->h = HEIGHT_GAME - p->hitbox.h;
         }
+        else p->h = HEIGHT_GAME - p->hitbox.h;
+
+        // Gauche
+        if (p->left) {
+            // Creation d'un double temporaire qui regarde si la position est bien sous collision
+            temp.x-=p->speed;
+
+            if (!colide(temp, obstacles)) {
+                    p->hitbox.x-=p->speed;
+                    p->distance_travelled++;
+            }
+            else if (p->surSol) p->hitbox.y--;
+        }
+        // Droite
+        if (p->right) {
+                // Creation d'un double temporaire qui regarde si la position est bien sous collision
+            temp.x+=p->speed;
+            if (temp.x < WIDTH_GAME - (*p).hitbox.w && !colide(temp, obstacles))  {
+                    p->hitbox.x+=p->speed;
+                    p->distance_travelled++;
+            }
+            else if (p->surSol) p->hitbox.y--;
+        }
+        // Chute
+        temp.y+=p->speed;
+        // Creation d'un double temporaire qui regarde si la position est bien sous collision
+        if (!colide(temp, obstacles))  p->hitbox.y+=FALL_SPEED;
+        if (!(p->surSol)) p->hitbox.y++;
     }
-    // Chute
-    temp.y+=p->speed;
-    // Creation d'un double temporaire qui regarde si la position est bien sous collision
-    if (!colide(temp, obstacles))  p->hitbox.y+=FALL_SPEED;
+
+    // Sur sol
+    temp.y+=temp.h;
+    if (colide(temp, obstacles)) p->surSol = true;
+    else p->surSol = false;
+
+    // Shield into Stun
+    if (p->shield) p->timeShield++;
+    else if (!(p->stun)) p->timeShield = 0;
+    if (p->timeShield >= TIME_SHIELD || p->stun)
+    {
+        p->stun = true;
+        p->timeShield++;
+    }
+    if (p->timeShield >= TIME_SHIELD + 150)
+    {
+        p->stun = false;
+        p->timeShield = 0;
+    }
 }
 // Initialise un player
 Player newPlayer(int num, SDL_Surface *surface, SDL_Rect hitbox, int type)
@@ -117,8 +145,9 @@ Player newPlayer(int num, SDL_Surface *surface, SDL_Rect hitbox, int type)
     p.left = 0; // Si la touche left est pressee
     p.right = 0; // Si la touche right est pressee
     p.attack = 0; // Si la touche attaque est pressee
-    p.jump = 250; // Hauteur du saut
-    p.speed = 7; // vitesse
+    p.jump = 200; // Hauteur du saut
+    p.speed = 8 / p.type; // vitesse
+
     p.hp = 50; // HP
     p.hpMax = 50; // HP MAX
     p.canAttack = 1; // Peux attaquer si =1
@@ -132,6 +161,11 @@ Player newPlayer(int num, SDL_Surface *surface, SDL_Rect hitbox, int type)
     p.defeat = 0;
     p.distance_travelled = 0;
     p.life = 5; // Nombre de vie du joueur
+    p.surSol = true; // Le joueur est sur le sol ?
+    p.shield = false; // De base, le joueur ne shield pas
+    p.timeShield = 0; // Buffer time du shield (on peux pas en abuser)
+    p.stun = false;
+
     return p;
 }
 void hit(Player *p1, Player *p2)
@@ -139,12 +173,12 @@ void hit(Player *p1, Player *p2)
     if (colidePlayers(p1, p2))
     {
         if(p1->attack) {
-            p2->hp--;
+            if (p2->shield == false) p2->hp--;
             if (p1->hitbox.x > p2->hitbox.x) p2->hitbox.x--;
             else p2->hitbox.x++;
         }
         if(p2->attack) {
-            p1->hp--;
+            if (p1->shield == false) p1->hp--;
             if (p1->hitbox.x < p2->hitbox.x) p1->hitbox.x--;
             else p1->hitbox.x++;
         }
