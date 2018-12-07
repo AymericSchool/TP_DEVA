@@ -325,7 +325,7 @@
 	"player.h"
 	"constantes.h"
 
-1544018880 source:c:\users\aymeric\documents\github\smashdeva\jeu.c
+1544190100 source:c:\users\aymeric\documents\github\smashdeva\jeu.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -339,16 +339,16 @@
 	"stats.h"
 	"narrow.h"
 
-1544011958 c:\users\aymeric\documents\github\smashdeva\constantes.h
+1544189663 c:\users\aymeric\documents\github\smashdeva\constantes.h
 
-1544018659 c:\users\aymeric\documents\github\smashdeva\player.h
+1544185716 c:\users\aymeric\documents\github\smashdeva\player.h
 	<stdbool.h>
 
 1543910713 c:\users\aymeric\documents\github\smashdeva\obstacles.h
 
-1543910713 c:\users\aymeric\documents\github\smashdeva\sprites.h
+1544188425 c:\users\aymeric\documents\github\smashdeva\sprites.h
 
-1543910713 source:c:\users\aymeric\documents\github\smashdeva\main.c
+1544190154 source:c:\users\aymeric\documents\github\smashdeva\main.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -362,7 +362,7 @@
 	"jeu.h"
 	"stats.h"
 
-1544015417 source:c:\users\aymeric\documents\github\smashdeva\obstacles.c
+1544188712 source:c:\users\aymeric\documents\github\smashdeva\obstacles.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -373,7 +373,7 @@
 	"constantes.h"
 	"sprites.h"
 
-1544019102 source:c:\users\aymeric\documents\github\smashdeva\player.c
+1544185868 source:c:\users\aymeric\documents\github\smashdeva\player.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -389,7 +389,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1544017730 source:c:\users\aymeric\documents\github\smashdeva\ia.c
+1544187660 source:c:\users\aymeric\documents\github\smashdeva\ia.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -397,8 +397,9 @@
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>
 	<SDL/SDL_ttf.h>
+	<time.h>
 	"player.h"
-	"constantes.h"
+	"time.h"
 
 1544015660 c:\users\aymeric\documents\github\smashdeva\ia.h
 
@@ -414,7 +415,7 @@
 	"constantes.h"
 	"player.h"
 
-1543686686 c:\users\aymeric\documents\github\smashdeva\jeu.h
+1544190138 c:\users\aymeric\documents\github\smashdeva\jeu.h
 
 1543508185 source:c:\users\maxence\documents\github\smashdeva\ia.c
 	<stdlib.h>

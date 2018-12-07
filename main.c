@@ -35,8 +35,16 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
+
+    // Bot
+    bool bot = true;
+
+    // Mode
+    bool mode = true;
+    /* true : vies, false : temps*/
+
     // Creation des surfaces
-    SDL_Surface *screen = NULL, *menu = NULL, *text = NULL, *ver = NULL;
+    SDL_Surface *screen = NULL, *menu = NULL, *text = NULL, *ver = NULL, *bot_surface = NULL;
 
     // Police
     TTF_Font *font = NULL, *font2 = NULL;
@@ -47,12 +55,16 @@ int main(int argc, char *argv[])
     SDL_Color couleur = {255, 255, 255, 0};
 
     // Position du texte
-    SDL_Rect posText = newRect(430, 500, 0, 0);
+    SDL_Rect posText = newRect(125, 500, 0, 0);
     SDL_Rect posVer = newRect(1140, 700, 0, 0);
+    SDL_Rect posBot = newRect(500, 700, 0, 0);
+    char botText[32];
 
     // Textes
-    text = TTF_RenderText_Blended(font, "Appuyez sur ENTRER", couleur);
-    ver = TTF_RenderText_Solid(font2, "Version 0.3.1", couleur);
+    text = TTF_RenderText_Blended(font, "Appuyez sur A, B ou C pour choisir le stage", couleur);
+    ver = TTF_RenderText_Solid(font2, "Version 0.3.3", couleur);
+
+
     int temps = 0, tempsIni = 0, aff = 0;
 
     // Creation du rect et surface du menu
@@ -68,11 +80,12 @@ int main(int argc, char *argv[])
     SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 255, 255, 255));
     SDL_WM_SetCaption(TITLE_GAME, NULL);
 
+
     SDL_Event event;
 
     while(continuer)
     {
-        SDL_WaitEvent(&event);
+        SDL_PollEvent(&event);
         switch(event.type)
         {
             case SDL_QUIT:
@@ -86,9 +99,37 @@ int main(int argc, char *argv[])
                         // On arrete
                         continuer = 0;
                         break;
-                    case SDLK_RETURN:
+                    case SDLK_q:
                         // On lance le jeu
-                        jouer(screen);
+                        jouer(screen, 1, bot, mode);
+                        SDL_BlitSurface(menu, NULL, screen, &posMenu);
+                        SDL_BlitSurface(ver, NULL, screen, &posVer);
+                        SDL_Flip(screen);
+                        SDL_Delay(800);
+                        break;
+                    case SDLK_b:
+                        // On lance le jeu avec stage 2
+                        jouer(screen, 2, bot, mode);
+                        SDL_BlitSurface(menu, NULL, screen, &posMenu);
+                        SDL_BlitSurface(ver, NULL, screen, &posVer);
+                        SDL_Flip(screen);
+                        SDL_Delay(800);
+                        break;
+                    case SDLK_c:
+                        // On lance le jeu avec stage 3
+                        jouer(screen, 3, bot, mode);
+                        SDL_BlitSurface(menu, NULL, screen, &posMenu);
+                        SDL_BlitSurface(ver, NULL, screen, &posVer);
+                        SDL_Flip(screen);
+                        SDL_Delay(800);
+                        break;
+                    case SDLK_o:
+                        // On active le bot
+                        bot = true;
+                        break;
+                    case SDLK_n:
+                        // On desactive le bot
+                        bot = false;
                         break;
                     default:
                         break;
@@ -100,6 +141,10 @@ int main(int argc, char *argv[])
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
         SDL_BlitSurface(menu, NULL, screen, &posMenu);
         SDL_BlitSurface(ver, NULL, screen, &posVer);
+        if (bot) sprintf(botText, "IA activee (n pour desactiver)");
+        else sprintf(botText, "IA desactivee (o pour activer)");
+        bot_surface = TTF_RenderText_Solid(font2, botText, couleur);
+        SDL_BlitSurface(bot_surface, NULL, screen, &posBot);
 
         // Clignotement du texte
         tempsIni = SDL_GetTicks();

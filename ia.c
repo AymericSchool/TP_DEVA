@@ -5,9 +5,11 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
+#include <time.h>
+
 
 #include "player.h"
-#include "constantes.h"
+#include "time.h"
 
 void move_ia(Player *p1, Player *p2, int niveauBot) {
 
@@ -36,11 +38,9 @@ void move_ia(Player *p1, Player *p2, int niveauBot) {
                 p2->attack = 1;
                 p2->buffer+=5;
             }
-
         }
 
-
-        if (p2->hitbox.y > p1->hitbox.y) {
+        if (p2->hitbox.y > p1->hitbox.y + 5) {
             p2->up = 1;
         }
 
@@ -57,12 +57,16 @@ void move_ia(Player *p1, Player *p2, int niveauBot) {
         // Niveau 2
         if (niveauBot == 2)
         {
-            p2->speed = 6;
-            if (colidePlayers(p1, p2)) p2->timeBeforeLittleHit++;
+            // Plus rapide
+            p2->speed = 5;
+            if (colidePlayers(p1, p2)) {
+                    // Chance de frapper davantages
+                    p2->timeBeforeLittleHit+= 1 - rand()%3;
+                    // Chance de shield
+                    if (rand()%193 == 0) p2->shield = 1;
+            }
 
-
+            if (p2->timeShield > 100) p2->shield = 0;
         }
-
-
     }
 }

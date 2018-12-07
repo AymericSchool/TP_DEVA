@@ -17,10 +17,10 @@ fonctions relatives a la physique du perso, collisions, sauts et deplacements
 int h;
 
 // Retourne true si obj est en collision avec un rect de oth
-bool colide (SDL_Rect obj, SDL_Rect* oth)
+bool colide (SDL_Rect obj, SDL_Rect* oth, int n)
 {
     int i;
-    for (i = 0; i < 10; i++) {
+    for (i = 0; i < n; i++) {
         // Coin superieur gauche
         if (((oth[i].x <= obj.x) && (obj.x <= oth[i].x + oth[i].w)) && ((oth[i].y <= obj.y) && (obj.y <= oth[i].y + oth[i].h))) return true;
         // Coin inferieur gauche
@@ -48,7 +48,7 @@ bool colidePlayers (Player *p1, Player *p2)
 }
 
 // Deplace p, selon la direction et les obstacles (pour les collisions)
-void moving(Player *p, SDL_Rect* obstacles)
+void moving(Player *p, SDL_Rect* obstacles, int n)
 {
     SDL_Rect temp;
     temp = p->hitbox;
@@ -58,8 +58,8 @@ void moving(Player *p, SDL_Rect* obstacles)
             p->right = 0;
             p->left = 0;
             p->stun = true;
-            p->hitbox.y-= JUMP_SPEED;
-            p->hitbox.x += 2*p->speed * p->sensPropulsion;
+            p->hitbox.y-= JUMP_SPEED / 4;
+            p->hitbox.x += (JUMP_SPEED * p->sensPropulsion) / 4;
             if (p->hitbox.x > WIDTH_GAME - p->hitbox.w) p->hitbox.x = WIDTH_GAME - p->hitbox.w;
             p->forcePropulsion--;
             if (p->forcePropulsion == 0) {
@@ -72,7 +72,7 @@ void moving(Player *p, SDL_Rect* obstacles)
         if (p->up) {
             // Creation d'un double temporaire qui regarde si la position est bien sous collision
             temp.y += p->speed;
-            if (colide(temp, obstacles)) {
+            if (colide(temp, obstacles, n)) {
                     // Si le joueur est sur le sol, on update sa hauteur max de saut
                 p->h = p->hitbox.y - p->jump;
             }
@@ -90,7 +90,7 @@ void moving(Player *p, SDL_Rect* obstacles)
             // Creation d'un double temporaire qui regarde si la position est bien sous collision
             temp.x-=p->speed;
 
-            if (!colide(temp, obstacles)) {
+            if (!colide(temp, obstacles, n)) {
                     p->hitbox.x-=p->speed;
                     p->distance_travelled++;
             }
@@ -100,7 +100,7 @@ void moving(Player *p, SDL_Rect* obstacles)
         if (p->right) {
                 // Creation d'un double temporaire qui regarde si la position est bien sous collision
             temp.x+=p->speed;
-            if (temp.x < WIDTH_GAME - (*p).hitbox.w && !colide(temp, obstacles))  {
+            if (temp.x < WIDTH_GAME - (*p).hitbox.w && !colide(temp, obstacles, n))  {
                     p->hitbox.x+=p->speed;
                     p->distance_travelled++;
             }
@@ -109,13 +109,13 @@ void moving(Player *p, SDL_Rect* obstacles)
         // Chute
         temp.y+=p->speed;
         // Creation d'un double temporaire qui regarde si la position est bien sous collision
-        if (!colide(temp, obstacles))  p->hitbox.y+=FALL_SPEED;
+        if (!colide(temp, obstacles, n))  p->hitbox.y+=FALL_SPEED;
         if (!(p->surSol)) p->hitbox.y++;
     }
 
     // Sur sol
     temp.y+=temp.h;
-    if (colide(temp, obstacles)) p->surSol = true;
+    if (colide(temp, obstacles, n)) p->surSol = true;
     else p->surSol = false;
 
     // Shield into Stun

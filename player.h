@@ -64,10 +64,10 @@ typedef struct {
 } Player;
 
 // Collisions
-bool colide (SDL_Rect obj, SDL_Rect* oth);
+bool colide (SDL_Rect obj, SDL_Rect* oth, int n);
 bool colidePlayers (Player *p1, Player *p2);
 // Deplacements
-void moving(Player* p, SDL_Rect* obstacles);
+void moving(Player* p, SDL_Rect* obstacles, int n);
 // Combats
 void hit(Player *p1, Player *p2);
 // Creation de joueur

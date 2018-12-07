@@ -62,6 +62,24 @@ Stage loadStage(int s)
         st.y2 = 240;
     }
 
+    // Stage 3 (Animal Crossing)
+    else if (s == 3)
+    {
+        SDL_Rect *obstacles = malloc(sizeof(SDL_Rect) * 4);
+        obstacles[0] = newRect(172, 556, 10, 956); // grande pf
+        obstacles[1] = newRect(76, 327, 10, 246); // pf gauche
+        obstacles[2] = newRect(970, 327, 10, 244); // pf droite
+        obstacles[3] = newRect(534, 405, 10, 216); // pf milieu
+        st.image = IMG_Load(STAGE_03);
+        st.position = position;
+        st.obstacles = obstacles;
+        st.nbObstacles = 4;
+        st.x1 = 82;
+        st.y1 = 220;
+        st.x2 = 1141;
+        st.y2 = 224;
+    }
+
     return st;
 
 }

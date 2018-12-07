@@ -18,12 +18,11 @@ tout commence ici
 #include "stats.h"
 #include "narrow.h"
 
-void jouer(SDL_Surface* screen) {
+void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode) {
     // Creation des surfaces
     SDL_Surface *j1 = NULL, *j2 = NULL, *text1 = NULL, *text2 = NULL, *text3 = NULL, *life1, *life2, *surface_debug;
 
     // Load du stage
-    int stageChoisi = 2;
     Stage st = loadStage(stageChoisi);
 
     // Niveau du bot
@@ -80,10 +79,12 @@ void jouer(SDL_Surface* screen) {
     // Creation du Rect des persos
     SDL_Rect pos_j1 = newRect(st.x1,st.y1,96,64);
     Player p1 = newPlayer(1, j1, pos_j1, 1);
+    Player p2;
     loadStats(&p1);
 
     SDL_Rect pos_j2 = newRect(st.x2,st.y2,96,64);
-    Player p2 = newPlayer(2, j2, pos_j2, 2);
+    if (bot) p2 = newPlayer(2, j2, pos_j2, 2);
+    else p2 = newPlayer(2, j2, pos_j2, 1);
     loadStats(&p2);
 
      // Chargement des images
@@ -244,8 +245,8 @@ void jouer(SDL_Surface* screen) {
 
     // Deplacements
         move_ia(&p1, &p2, niveauBot);
-        moving(&p1, st.obstacles);
-        moving(&p2, st.obstacles);
+        moving(&p1, st.obstacles, st.nbObstacles);
+        moving(&p2, st.obstacles, st.nbObstacles);
 
     // Coups
         hit(&p1, &p2);
@@ -258,6 +259,7 @@ void jouer(SDL_Surface* screen) {
                 p1.hitbox.y = st.y1;
                 p1.hp = p1.hpMax;
                 p1.estPropulse = 0;
+                p1.stun = false;
                 // Affichage du stage en arriere plan
                 SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
                 SDL_BlitSurface(st.image, NULL, screen, &st.position);
@@ -270,6 +272,7 @@ void jouer(SDL_Surface* screen) {
                 p2.hitbox.y = st.y2;
                 p2.hp = p2.hpMax;
                 p2.estPropulse = 0;
+                p2.stun = false;
                 // Affichage du stage en arriere plan
                 SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 0, 0, 0));
                 SDL_BlitSurface(st.image, NULL, screen, &st.position);
@@ -280,7 +283,7 @@ void jouer(SDL_Surface* screen) {
         sprintf(vie2, "%d%%", p2.hpMax - p2.hp);
         sprintf(nbLife1, "Vie(s) : %d", p1.life);
         sprintf(nbLife2, "Vie(s) : %d", p2.life);
-        sprintf(text_debug, "Shield : %d, Stun : %d, TimeShield : %d", p1.shield, p1.stun, p1.timeShield);
+        sprintf(text_debug, "Shield : %d, Stun : %d, TimeShield : %d, TS BOT : %d, shield Bot %d", p1.shield, p1.stun, p1.timeShield,p2.timeShield, p2.shield);
 
         // Affichage des PV des persos
         if (p1.hpMax - p1.hp < 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_blanc);
@@ -312,7 +315,11 @@ void jouer(SDL_Surface* screen) {
         tempsNarrow = SDL_GetTicks();
         if (tempsNarrow % 50 == 0) updateNarrow(&pos_narrow, -1);
 
-
+        // Conditions de victoires
+        if (mode)
+        {
+            if (p1.life == 0 || p2.life == 0) continuer = 0;
+        }
 
         // Affichage du stage
         affFond(screen, st.image, &p1.hitbox);
@@ -355,8 +362,8 @@ void jouer(SDL_Surface* screen) {
         SDL_BlitSurface(text2, NULL, screen, &pos_text2);
         SDL_BlitSurface(text3, NULL, screen, &pos_fps_counter);
         SDL_BlitSurface(surface_debug, NULL, screen, &pos_debug);
-        SDL_BlitSurface(life1, NULL, screen, &pos_life1);
-        SDL_BlitSurface(life2, NULL, screen, &pos_life2);
+        if (mode) SDL_BlitSurface(life1, NULL, screen, &pos_life1);
+        if (mode) SDL_BlitSurface(life2, NULL, screen, &pos_life2);
 
         SDL_Flip(screen);
         }
@@ -368,6 +375,7 @@ void jouer(SDL_Surface* screen) {
     SDL_FreeSurface(text2);
     SDL_FreeSurface(life1);
     SDL_FreeSurface(life2);
+    SDL_FreeSurface(surface_debug);
     SDL_FreeSurface(text3);
     SDL_FreeSurface(p1.icone);
     SDL_FreeSurface(p2.icone);
