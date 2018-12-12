@@ -124,6 +124,7 @@ void moving(Player *p, SDL_Rect* obstacles, int n)
     if (p->timeShield >= TIME_SHIELD || p->stun)
     {
         p->stun = true;
+        p->shield = 0;
         p->timeShield++;
     }
     if (p->timeShield >= TIME_SHIELD + 150)
@@ -144,6 +145,7 @@ Player newPlayer(int num, SDL_Surface *surface, SDL_Rect hitbox, int type)
     p.up = 0; // Si la touche Up est pressee
     p.left = 0; // Si la touche left est pressee
     p.right = 0; // Si la touche right est pressee
+    p.smash = 0;
     p.attack = 0; // Si la touche attaque est pressee
     p.jump = 200; // Hauteur du saut
     p.speed = 8 / p.type; // vitesse
@@ -151,7 +153,7 @@ Player newPlayer(int num, SDL_Surface *surface, SDL_Rect hitbox, int type)
     p.hp = 50; // HP
     p.hpMax = 50; // HP MAX
     p.canAttack = 1; // Peux attaquer si =1
-    p.buffer = 0; // Quand =1000, grosse attaque
+    p.bufferSmash = 0; // Quand = BIG_ATTACK, smash
     p.estPropulse = 0; // Boolean qui dit si le joueur est propulse
     p.forcePropulsion = 0; // Si le joueur est propulse, voici la force de propulsion
     p.sensPropulsion = 0; // -1 si gauche, 0 si hauteur, 1 si droite
@@ -172,34 +174,50 @@ void hit(Player *p1, Player *p2)
 {
     if (colidePlayers(p1, p2))
     {
-        if(p1->attack) {
-            if (p2->shield == false) p2->hp--;
+
+        if(p1->attack && !p1->shield) {
+            if (p2->shield == false)
+            {
+                p2->hp--;
+                p1->bufferSmash++;
+            }
             if (p1->hitbox.x > p2->hitbox.x) p2->hitbox.x--;
             else p2->hitbox.x++;
+
         }
-        if(p2->attack) {
-            if (p1->shield == false) p1->hp--;
+        if(p2->attack && !p2->shield) {
+            if (p1->shield == false)
+            {
+                p1->hp--;
+                p2->bufferSmash++;
+            }
             if (p1->hitbox.x < p2->hitbox.x) p1->hitbox.x--;
             else p1->hitbox.x++;
+
         }
-        if (p1->buffer == BIG_ATTACK) {
+        if ((p1->bufferSmash >= BIG_ATTACK) && p1->smash) {
             p1->big_hit++;
-            p1->buffer = 0;
+            p1->bufferSmash = 0;
             p2->hp-=10;
             p2->estPropulse = 1;
-            p2->forcePropulsion = p2->hpMax - p2->hp;
+            p2->forcePropulsion = 60 - p2->hp;
             if (p1-> hitbox.x > p2->hitbox.x) p2->sensPropulsion = -1;
             else p2->sensPropulsion = 1;
         }
-        if (p2->buffer == BIG_ATTACK) {
+        if ((p2->bufferSmash >= BIG_ATTACK) && p2->smash) {
             p2->big_hit++;
-            p2->buffer = 0;
+            p2->bufferSmash = 0;
             p1->hp-=10;
             p1->estPropulse = 1;
-            p1->forcePropulsion = p1->hpMax - p1->hp;
+            p1->forcePropulsion = 60 - p1->hp;
             if (p1-> hitbox.x > p2->hitbox.x) p1->sensPropulsion = 1;
             else p1->sensPropulsion = -1;
         }
+    }
+    else
+    {
+        p1->bufferSmash = 0;
+        p2->bufferSmash = 0;
     }
     p1->attack = 0;
     p2->attack = 0;

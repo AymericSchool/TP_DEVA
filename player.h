@@ -6,7 +6,8 @@
 #define J1_RIGHT            SDLK_d
 #define J1_LEFT                 SDLK_a
 #define J1_ATTACK           SDLK_SPACE
-#define J1_SHIELD               SDLK_LALT
+#define J1_SHIELD               SDLK_q
+#define J1_SMASH            SDLK_LALT
 
 // Touches Clavier J2
 #define J2_UP                  SDLK_UP
@@ -14,9 +15,10 @@
 #define J2_LEFT                 SDLK_LEFT
 #define J2_ATTACK           SDLK_KP0
 #define J2_SHIELD               SDLK_KP3
+#define J2_SMASH            SDLK_KP_ENTER
 
 // Constante de combat
-#define BIG_ATTACK                              50
+#define BIG_ATTACK                              9
 #define FALL_SPEED                              8
 #define JUMP_SPEED                              16
 #define TIME_BEFORE_LITTLE_HIT      24
@@ -39,11 +41,13 @@ typedef struct {
     int right;
     int left;
     int attack;
+    int smash;
+    bool shield;
 
     int hp;
     int hpMax;
     int canAttack;
-    int buffer;
+    int bufferSmash;
     int estPropulse;
     int forcePropulsion;
     int sensPropulsion;
@@ -51,7 +55,6 @@ typedef struct {
 
     int life;
     bool surSol;
-    bool shield;
     int timeShield;
     bool stun;
 

@@ -325,7 +325,7 @@
 	"player.h"
 	"constantes.h"
 
-1544190100 source:c:\users\aymeric\documents\github\smashdeva\jeu.c
+1544622373 source:c:\users\aymeric\documents\github\smashdeva\jeu.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -341,14 +341,14 @@
 
 1544189663 c:\users\aymeric\documents\github\smashdeva\constantes.h
 
-1544185716 c:\users\aymeric\documents\github\smashdeva\player.h
+1544618827 c:\users\aymeric\documents\github\smashdeva\player.h
 	<stdbool.h>
 
 1543910713 c:\users\aymeric\documents\github\smashdeva\obstacles.h
 
-1544188425 c:\users\aymeric\documents\github\smashdeva\sprites.h
+1544619391 c:\users\aymeric\documents\github\smashdeva\sprites.h
 
-1544190154 source:c:\users\aymeric\documents\github\smashdeva\main.c
+1544620871 source:c:\users\aymeric\documents\github\smashdeva\main.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -373,7 +373,7 @@
 	"constantes.h"
 	"sprites.h"
 
-1544185868 source:c:\users\aymeric\documents\github\smashdeva\player.c
+1544622423 source:c:\users\aymeric\documents\github\smashdeva\player.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -389,7 +389,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1544187660 source:c:\users\aymeric\documents\github\smashdeva\ia.c
+1544622264 source:c:\users\aymeric\documents\github\smashdeva\ia.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -415,7 +415,7 @@
 	"constantes.h"
 	"player.h"
 
-1544190138 c:\users\aymeric\documents\github\smashdeva\jeu.h
+1544620075 c:\users\aymeric\documents\github\smashdeva\jeu.h
 
 1543508185 source:c:\users\maxence\documents\github\smashdeva\ia.c
 	<stdlib.h>

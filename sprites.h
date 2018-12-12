@@ -89,6 +89,17 @@ stocke les chemins des images du jeu
 #define KIT_14            "res/kit/kit_014.png"
 #define KIT_15            "res/kit/kit_015.png"
 
+// Smash Counter
+#define SMASH_1         "res/smash_count/smash_1.png"
+#define SMASH_2         "res/smash_count/smash_2.png"
+#define SMASH_3         "res/smash_count/smash_3.png"
+#define SMASH_4         "res/smash_count/smash_4.png"
+#define SMASH_5         "res/smash_count/smash_5.png"
+#define SMASH_6         "res/smash_count/smash_6.png"
+#define SMASH_7         "res/smash_count/smash_7.png"
+#define SMASH_8         "res/smash_count/smash_8.png"
+#define SMASH_9         "res/smash_count/smash_9.png"
+
 void affFond(SDL_Surface* screen, SDL_Surface* fond, SDL_Rect* rect);
 
 #endif // SPRITES_H_INCLUDED

@@ -18,9 +18,21 @@ tout commence ici
 #include "stats.h"
 #include "narrow.h"
 
-void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode) {
+void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player1, int player2) {
     // Creation des surfaces
     SDL_Surface *j1 = NULL, *j2 = NULL, *text1 = NULL, *text2 = NULL, *text3 = NULL, *life1, *life2, *surface_debug;
+
+    // Smash Counter
+    SDL_Surface
+    *s1 = IMG_Load(SMASH_1),
+    *s2 = IMG_Load(SMASH_2),
+    *s3 = IMG_Load(SMASH_3),
+    *s4 = IMG_Load(SMASH_4),
+    *s5 = IMG_Load(SMASH_5),
+    *s6 = IMG_Load(SMASH_6),
+    *s7 = IMG_Load(SMASH_7),
+    *s8 = IMG_Load(SMASH_8),
+    *s9 = IMG_Load(SMASH_9);
 
     // Load du stage
     Stage st = loadStage(stageChoisi);
@@ -78,20 +90,78 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode) {
 
     // Creation du Rect des persos
     SDL_Rect pos_j1 = newRect(st.x1,st.y1,96,64);
-    Player p1 = newPlayer(1, j1, pos_j1, 1);
+    Player p1 = newPlayer(player1, j1, pos_j1, 1);
     Player p2;
     loadStats(&p1);
 
     SDL_Rect pos_j2 = newRect(st.x2,st.y2,96,64);
-    if (bot) p2 = newPlayer(2, j2, pos_j2, 2);
-    else p2 = newPlayer(2, j2, pos_j2, 1);
+    if (bot) p2 = newPlayer(player2, j2, pos_j2, 2);
+    else p2 = newPlayer(player2, j2, pos_j2, 1);
     loadStats(&p2);
 
-     // Chargement des images
-    p1.surface = IMG_Load(DROID_00);
-    p1.icone = IMG_Load(DROID_ICONE);
-    p2.surface = IMG_Load(KIT_00);
-    p2.icone = IMG_Load(KIT_ICONE);
+    switch (player1)
+    {
+    case 1:
+        p1.jump = 250;
+        p1.speed = 7;
+        p1.surface = IMG_Load(DROID_00);
+        p1.icone = IMG_Load(DROID_ICONE);
+        break;
+    case 2:
+        p1.jump = 150;
+        p1.speed = 10;
+        p1.surface = IMG_Load(KIT_00);
+        p1.icone = IMG_Load(KIT_ICONE);
+        break;
+    case 3:
+        p1.hp = 60;
+        p1.hpMax = 60;
+        p1.life = 4;
+        p1.surface = IMG_Load(TUX_00);
+        p1.icone = IMG_Load(TUX_ICONE);
+        break;
+    case 4:
+        p1.hp = 40;
+        p1.hpMax = 40;
+        p1.life = 6;
+        p1.surface = IMG_Load(WILBER_00);
+        p1.icone = IMG_Load(WILBER_ICONE);
+        break;
+    default:
+        break;
+    }
+
+    switch (player2)
+    {
+    case 1:
+        p2.jump = 250;
+        p2.speed = 7;
+        p2.surface = IMG_Load(DROID_00);
+        p2.icone = IMG_Load(DROID_ICONE);
+        break;
+    case 2:
+        p2.jump = 150;
+        p2.speed = 10;
+        p2.surface = IMG_Load(KIT_00);
+        p2.icone = IMG_Load(KIT_ICONE);
+        break;
+    case 3:
+        p2.hp = 60;
+        p2.hpMax = 60;
+        p2.life = 4;
+        p2.surface = IMG_Load(TUX_00);
+        p2.icone = IMG_Load(TUX_ICONE);
+        break;
+    case 4:
+        p2.hp = 40;
+        p2.hpMax = 40;
+        p2.life = 6;
+        p2.surface = IMG_Load(WILBER_00);
+        p2.icone = IMG_Load(WILBER_ICONE);
+        break;
+    default:
+        break;
+    }
 
     // Rester appuye sur la touche
     SDL_EnableKeyRepeat(10,10);
@@ -133,12 +203,16 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode) {
                             p1.attack = 1;
                             p1.canAttack = 0;
                         }
-                        if (p1.type == 1) p1.buffer++;
                         break;
 
                     case J1_SHIELD:
                         // Touche shield
-                        p1.shield = true;
+                        if (!p1.stun) p1.shield = true;
+                        break;
+
+                    case J1_SMASH:
+                        // Attaque smash
+                        p1.smash = 1;
                         break;
 
                     case J2_UP:
@@ -159,12 +233,15 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode) {
                             p2.attack = 1;
                             p2.canAttack = 0;
                         }
-                        if (p2.type == 1) p2.buffer++;
                         break;
 
                     case J2_SHIELD:
                         // Touche shield
-                        p2.shield = true;
+                        if (!p2.stun) p2.shield = true;
+                        break;
+
+                    case J2_SMASH:
+                        p2.smash = 1;
                         break;
 
                     case SDLK_KP_PLUS:
@@ -204,12 +281,15 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode) {
                             // Touche attaque relachee
                             if (p1.type == 1) p1.attack = 0;
                             if (p1.type == 1) p1.canAttack = 1;
-                            if (p1.type == 1) p1.buffer = 0;
                             break;
 
                     case J1_SHIELD:
                         // Touche shield
                         p1.shield = false;
+                        break;
+
+                    case J1_SMASH:
+                        p1.smash = 0;
                         break;
 
                     case J2_UP:
@@ -227,12 +307,15 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode) {
                         // Touche attaque relachee
                         if (p2.type == 1) p2.attack = 0;
                         if (p2.type == 1) p2.canAttack = 1;
-                        if (p2.type == 1) p2.buffer = 0;
                         break;
 
                     case J2_SHIELD:
                         // Touche shield
                         p2.shield = false;
+                        break;
+
+                    case J2_SMASH:
+                        p2.smash = 0;
                         break;
 
                 default:
@@ -279,22 +362,22 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode) {
         }
 
     // HUD
-        sprintf(vie1, "%d%%", p1.hpMax - p1.hp);
-        sprintf(vie2, "%d%%", p2.hpMax - p2.hp);
+        sprintf(vie1, "%d%%", 100 - (p1.hp * 100) / p1.hpMax);
+        sprintf(vie2, "%d%%", 100 - (p2.hp * 100) / p2.hpMax);
         sprintf(nbLife1, "Vie(s) : %d", p1.life);
         sprintf(nbLife2, "Vie(s) : %d", p2.life);
-        sprintf(text_debug, "Shield : %d, Stun : %d, TimeShield : %d, TS BOT : %d, shield Bot %d", p1.shield, p1.stun, p1.timeShield,p2.timeShield, p2.shield);
+        sprintf(text_debug, "p1 smash %d", p1.smash);
 
         // Affichage des PV des persos
-        if (p1.hpMax - p1.hp < 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_blanc);
-        if (p1.hpMax - p1.hp > 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_jaune);
-        if (p1.hpMax - p1.hp > 50) text1 = TTF_RenderText_Solid(font, vie1, couleur_orange);
-        if (p1.hpMax - p1.hp > 75) text1 = TTF_RenderText_Solid(font, vie1, couleur_rouge);
+        if (100 - (p1.hp * 100) / p1.hpMax < 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_blanc);
+        if (100 - (p1.hp * 100) / p1.hpMax > 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_jaune);
+        if (100 - (p1.hp * 100) / p1.hpMax > 50) text1 = TTF_RenderText_Solid(font, vie1, couleur_orange);
+        if (100 - (p1.hp * 100) / p1.hpMax > 75) text1 = TTF_RenderText_Solid(font, vie1, couleur_rouge);
 
-        if (p2.hpMax - p2.hp < 25) text2 = TTF_RenderText_Solid(font, vie2, couleur_blanc);
-        if (p2.hpMax - p2.hp > 25) text2 = TTF_RenderText_Solid(font, vie2, couleur_jaune);
-        if (p2.hpMax - p2.hp > 50) text2 = TTF_RenderText_Solid(font, vie2, couleur_orange);
-        if (p2.hpMax - p2.hp > 75) text2 = TTF_RenderText_Solid(font, vie2, couleur_rouge);
+        if (100 - (p2.hp * 100) / p2.hpMax < 25) text2 = TTF_RenderText_Solid(font, vie2, couleur_blanc);
+        if (100 - (p2.hp * 100) / p2.hpMax > 25) text2 = TTF_RenderText_Solid(font, vie2, couleur_jaune);
+        if (100 - (p2.hp * 100) / p2.hpMax > 50) text2 = TTF_RenderText_Solid(font, vie2, couleur_orange);
+        if (100 - (p2.hp * 100) / p2.hpMax > 75) text2 = TTF_RenderText_Solid(font, vie2, couleur_rouge);
 
         life1 = TTF_RenderText_Solid(font2, nbLife1, couleur_blanc);
         life2 = TTF_RenderText_Solid(font2, nbLife2, couleur_blanc);
@@ -357,7 +440,71 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode) {
         SDL_BlitSurface(p1.surface, NULL, screen, &p1.hitbox);
         SDL_BlitSurface(p2.surface, NULL, screen, &p2.hitbox);
         SDL_BlitSurface(p1.icone, NULL, screen, &pos_icone1);
+        switch (p1.bufferSmash)
+        {
+        case 0:
+            break;
+        case 1:
+            SDL_BlitSurface(s1, NULL, screen, &pos_icone1);
+            break;
+        case 2:
+            SDL_BlitSurface(s2, NULL, screen, &pos_icone1);
+            break;
+        case 3:
+            SDL_BlitSurface(s3, NULL, screen, &pos_icone1);
+            break;
+        case 4:
+            SDL_BlitSurface(s4, NULL, screen, &pos_icone1);
+            break;
+        case 5:
+            SDL_BlitSurface(s5, NULL, screen, &pos_icone1);
+            break;
+        case 6:
+            SDL_BlitSurface(s6, NULL, screen, &pos_icone1);
+            break;
+        case 7:
+            SDL_BlitSurface(s7, NULL, screen, &pos_icone1);
+            break;
+        case 8:
+            SDL_BlitSurface(s8, NULL, screen, &pos_icone1);
+            break;
+        default:
+            SDL_BlitSurface(s9, NULL, screen, &pos_icone1);
+            break;
+        }
         SDL_BlitSurface(p2.icone, NULL, screen, &pos_icone2);
+        switch (p2.bufferSmash)
+        {
+        case 0:
+            break;
+        case 1:
+            SDL_BlitSurface(s1, NULL, screen, &pos_icone2);
+            break;
+        case 2:
+            SDL_BlitSurface(s2, NULL, screen, &pos_icone2);
+            break;
+        case 3:
+            SDL_BlitSurface(s3, NULL, screen, &pos_icone2);
+            break;
+        case 4:
+            SDL_BlitSurface(s4, NULL, screen, &pos_icone2);
+            break;
+        case 5:
+            SDL_BlitSurface(s5, NULL, screen, &pos_icone2);
+            break;
+        case 6:
+            SDL_BlitSurface(s6, NULL, screen, &pos_icone2);
+            break;
+        case 7:
+            SDL_BlitSurface(s7, NULL, screen, &pos_icone2);
+            break;
+        case 8:
+            SDL_BlitSurface(s8, NULL, screen, &pos_icone2);
+            break;
+        default:
+            SDL_BlitSurface(s9, NULL, screen, &pos_icone2);
+            break;
+        }
         SDL_BlitSurface(text1, NULL, screen, &pos_text1);
         SDL_BlitSurface(text2, NULL, screen, &pos_text2);
         SDL_BlitSurface(text3, NULL, screen, &pos_fps_counter);
@@ -372,6 +519,15 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode) {
     SDL_FreeSurface(p1.surface);
     SDL_FreeSurface(p2.surface);
     SDL_FreeSurface(text1);
+    SDL_FreeSurface(s1);
+    SDL_FreeSurface(s2);
+    SDL_FreeSurface(s3);
+    SDL_FreeSurface(s4);
+    SDL_FreeSurface(s5);
+    SDL_FreeSurface(s6);
+    SDL_FreeSurface(s7);
+    SDL_FreeSurface(s8);
+    SDL_FreeSurface(s9);
     SDL_FreeSurface(text2);
     SDL_FreeSurface(life1);
     SDL_FreeSurface(life2);

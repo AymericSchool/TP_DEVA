@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 
     // Textes
     text = TTF_RenderText_Blended(font, "Appuyez sur A, B ou C pour choisir le stage", couleur);
-    ver = TTF_RenderText_Solid(font2, "Version 0.3.3", couleur);
+    ver = TTF_RenderText_Solid(font2, "Version 0.3.4", couleur);
 
 
     int temps = 0, tempsIni = 0, aff = 0;
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
                         break;
                     case SDLK_q:
                         // On lance le jeu
-                        jouer(screen, 1, bot, mode);
+                        jouer(screen, 1, bot, mode, 3, 4);
                         SDL_BlitSurface(menu, NULL, screen, &posMenu);
                         SDL_BlitSurface(ver, NULL, screen, &posVer);
                         SDL_Flip(screen);
@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
                         break;
                     case SDLK_b:
                         // On lance le jeu avec stage 2
-                        jouer(screen, 2, bot, mode);
+                        jouer(screen, 2, bot, mode, 1, 2);
                         SDL_BlitSurface(menu, NULL, screen, &posMenu);
                         SDL_BlitSurface(ver, NULL, screen, &posVer);
                         SDL_Flip(screen);
@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
                         break;
                     case SDLK_c:
                         // On lance le jeu avec stage 3
-                        jouer(screen, 3, bot, mode);
+                        jouer(screen, 3, bot, mode, 1, 2);
                         SDL_BlitSurface(menu, NULL, screen, &posMenu);
                         SDL_BlitSurface(ver, NULL, screen, &posVer);
                         SDL_Flip(screen);
