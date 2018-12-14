@@ -17,6 +17,7 @@ charge le menu, et lance le jeu
 #include "constantes.h"
 #include "jeu.h"
 #include "stats.h"
+#include "menu.h"
 
 
 int main(int argc, char *argv[])
@@ -63,7 +64,7 @@ int main(int argc, char *argv[])
     // Textes
     text = TTF_RenderText_Blended(font, "Appuyez sur A, B ou C pour choisir le stage", couleur);
     ver = TTF_RenderText_Solid(font2, "Version 0.3.4", couleur);
-
+//
 
     int temps = 0, tempsIni = 0, aff = 0;
 
@@ -131,6 +132,12 @@ int main(int argc, char *argv[])
                         // On desactive le bot
                         bot = false;
                         break;
+                    case SDLK_RETURN:
+                        realMenu(screen);
+                        SDL_BlitSurface(menu, NULL, screen, &posMenu);
+                        SDL_BlitSurface(ver, NULL, screen, &posVer);
+                        SDL_Flip(screen);
+                        SDL_Delay(800);
                     default:
                         break;
                 }
