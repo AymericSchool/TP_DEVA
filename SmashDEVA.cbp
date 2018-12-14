@@ -30,7 +30,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add directory="F:/Logiciels/CodeBlocks/SDL-1.2.15/include" />
+			<Add directory="C:/Program Files (x86)/CodeBlocks/SDL-1.2.15/include" />
 		</Compiler>
 		<Linker>
 			<Add library="mingw32" />
@@ -40,10 +40,7 @@
 			<Add library="gdi32" />
 			<Add library="winmm" />
 			<Add library="dxguid" />
-			<Add library="F:/Logiciels/CodeBlocks/SDL-1.2.15/lib/SDL_image.lib" />
-			<Add library="F:/Logiciels/CodeBlocks/SDL-1.2.15/lib/SDL_mixer.lib" />
-			<Add library="F:/Logiciels/CodeBlocks/SDL-1.2.15/lib/SDL_ttf.lib" />
-			<Add directory="F:/Logiciels/CodeBlocks/SDL-1.2.15/lib" />
+			<Add directory="C:/Program Files (x86)/CodeBlocks/SDL-1.2.15/lib" />
 		</Linker>
 		<Unit filename="cb.bmp" />
 		<Unit filename="constantes.h" />
