@@ -20,7 +20,7 @@ tout commence ici
 
 void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player1, int player2) {
     // Creation des surfaces
-    SDL_Surface *j1 = NULL, *j2 = NULL, *text1 = NULL, *text2 = NULL, *text3 = NULL, *life1, *life2, *surface_debug;
+    SDL_Surface *j1 = NULL, *j2 = NULL, *text1 = NULL, *text2 = NULL, *text3 = NULL, *life1, *life2, *surface_debug, *timerSurface = NULL;
 
     // Smash Counter
     SDL_Surface
@@ -54,7 +54,8 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
       int i;
 
     // Pour les textes
-    char vie1[8], vie2[8], fps[8], nbLife1[16], nbLife2[16], text_debug[128];
+    char vie1[8], vie2[8], fps[8], nbLife1[16], nbLife2[16], text_debug[128], timerText[64];
+
 
     // Polices
     TTF_Font *font = NULL, *font2 = NULL;
@@ -73,7 +74,8 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
     SDL_Rect pos_fps_counter = newRect(WIDTH_GAME - 100, 0, 0, 0);
     SDL_Rect pos_life1 = newRect(200, 700, 0, 0);
     SDL_Rect pos_life2 = newRect(1000, 700, 0, 0);
-    SDL_Rect pos_debug = newRect(0, 0, 0, 0);
+    //SDL_Rect pos_debug = newRect(0, 0, 0, 0);
+    SDL_Rect pos_timer = newRect(0,0,0,0);
 
     // Position des icones des perso
     SDL_Rect pos_icone1 = newRect(50, 600, 100, 100);
@@ -84,6 +86,7 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
 
     // Variables pour le compteur de FPS
     int temps = 0, tempsIni = 0, nbFps;
+    int  timerTemps = LIMIT_TIME;
 
     // Variable pour le narrow
     int tempsNarrow = SDL_GetTicks();
@@ -107,12 +110,14 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         p1.surface = IMG_Load(DROID_00);
         p1.icone = IMG_Load(DROID_ICONE);
         break;
+
     case 2:
         p1.jump = 150;
         p1.speed = 10;
         p1.surface = IMG_Load(KIT_00);
         p1.icone = IMG_Load(KIT_ICONE);
         break;
+
     case 3:
         p1.hp = 60;
         p1.hpMax = 60;
@@ -120,6 +125,7 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         p1.surface = IMG_Load(TUX_00);
         p1.icone = IMG_Load(TUX_ICONE);
         break;
+
     case 4:
         p1.hp = 40;
         p1.hpMax = 40;
@@ -127,6 +133,7 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         p1.surface = IMG_Load(WILBER_00);
         p1.icone = IMG_Load(WILBER_ICONE);
         break;
+
     default:
         break;
     }
@@ -336,7 +343,12 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
 
     // Mort par le Narrow
         if (deadlyNarrow(&p1, &pos_narrow)) {
-                p1.life--;
+                if (mode) p1.life--;
+                else
+                {
+                    p1.points--;
+                    p2.points++;
+                }
                 updateNarrow(&pos_narrow, 0);
                 p1.hitbox.x = st.x1;
                 p1.hitbox.y = st.y1;
@@ -349,7 +361,12 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
 
         }
         if (deadlyNarrow(&p2, &pos_narrow)) {
-                p2.life--;
+                if (mode) p2.life--;
+                else
+                {
+                    p1.points++;
+                    p2.points--;
+                }
                 updateNarrow(&pos_narrow, 0);
                 p2.hitbox.x = st.x2;
                 p2.hitbox.y = st.y2;
@@ -362,22 +379,35 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         }
 
     // HUD
+    if (mode)
+    {
         sprintf(vie1, "%d%%", 100 - (p1.hp * 100) / p1.hpMax);
         sprintf(vie2, "%d%%", 100 - (p2.hp * 100) / p2.hpMax);
         sprintf(nbLife1, "Vie(s) : %d", p1.life);
         sprintf(nbLife2, "Vie(s) : %d", p2.life);
+    }
+    else
+    {
+        sprintf(nbLife1, "Point(s) : %d", p1.points);
+        sprintf(nbLife2, "Point(s) : %d", p2.points);
+    }
+
         sprintf(text_debug, "p1 smash %d", p1.smash);
 
         // Affichage des PV des persos
-        if (100 - (p1.hp * 100) / p1.hpMax < 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_blanc);
-        if (100 - (p1.hp * 100) / p1.hpMax > 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_jaune);
-        if (100 - (p1.hp * 100) / p1.hpMax > 50) text1 = TTF_RenderText_Solid(font, vie1, couleur_orange);
-        if (100 - (p1.hp * 100) / p1.hpMax > 75) text1 = TTF_RenderText_Solid(font, vie1, couleur_rouge);
 
-        if (100 - (p2.hp * 100) / p2.hpMax < 25) text2 = TTF_RenderText_Solid(font, vie2, couleur_blanc);
-        if (100 - (p2.hp * 100) / p2.hpMax > 25) text2 = TTF_RenderText_Solid(font, vie2, couleur_jaune);
-        if (100 - (p2.hp * 100) / p2.hpMax > 50) text2 = TTF_RenderText_Solid(font, vie2, couleur_orange);
-        if (100 - (p2.hp * 100) / p2.hpMax > 75) text2 = TTF_RenderText_Solid(font, vie2, couleur_rouge);
+            if (100 - (p1.hp * 100) / p1.hpMax < 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_blanc);
+            if (100 - (p1.hp * 100) / p1.hpMax > 25) text1 = TTF_RenderText_Solid(font, vie1, couleur_jaune);
+            if (100 - (p1.hp * 100) / p1.hpMax > 50) text1 = TTF_RenderText_Solid(font, vie1, couleur_orange);
+            if (100 - (p1.hp * 100) / p1.hpMax > 75) text1 = TTF_RenderText_Solid(font, vie1, couleur_rouge);
+
+            if (100 - (p2.hp * 100) / p2.hpMax < 25) text2 = TTF_RenderText_Solid(font, vie2, couleur_blanc);
+            if (100 - (p2.hp * 100) / p2.hpMax > 25) text2 = TTF_RenderText_Solid(font, vie2, couleur_jaune);
+            if (100 - (p2.hp * 100) / p2.hpMax > 50) text2 = TTF_RenderText_Solid(font, vie2, couleur_orange);
+            if (100 - (p2.hp * 100) / p2.hpMax > 75) text2 = TTF_RenderText_Solid(font, vie2, couleur_rouge);
+
+
+
 
         life1 = TTF_RenderText_Solid(font2, nbLife1, couleur_blanc);
         life2 = TTF_RenderText_Solid(font2, nbLife2, couleur_blanc);
@@ -394,6 +424,16 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         sprintf(fps, "FPS : %d", nbFps);
         text3 = TTF_RenderText_Solid(font2, fps, couleur_blanc);
 
+        // Timer
+        if (!mode)
+        {
+            timerTemps--;
+            sprintf(timerText, "Timer : %dmin%.2d", ((timerTemps) / 100)/60, ((timerTemps)/100)%60);
+            timerSurface = TTF_RenderText_Solid(font2, timerText, couleur_blanc);
+        }
+
+
+
         // Le narrow retrecit (normal)
         tempsNarrow = SDL_GetTicks();
         if (tempsNarrow % 50 == 0) updateNarrow(&pos_narrow, -1);
@@ -403,6 +443,10 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         {
             if (p1.life == 0 || p2.life == 0) continuer = 0;
         }
+        else if (!mode)
+        {
+            if (((timerTemps) / 100) == 0) continuer = 0;
+        }
 
         // Affichage du stage
         affFond(screen, st.image, &p1.hitbox);
@@ -410,7 +454,8 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         affFond(screen, st.image, &pos_text1);
         affFond(screen, st.image, &pos_text2);
         affFond(screen, st.image, &pos_fps_counter);
-        affFond(screen, st.image, &pos_debug);
+        affFond(screen, st.image, &pos_timer);
+        //affFond(screen, st.image, &pos_debug);
 
         // Affichage du narrow
         for (i = 0; i < pos_narrow.x; i++)
@@ -505,12 +550,14 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
             SDL_BlitSurface(s9, NULL, screen, &pos_icone2);
             break;
         }
-        SDL_BlitSurface(text1, NULL, screen, &pos_text1);
-        SDL_BlitSurface(text2, NULL, screen, &pos_text2);
+        if (mode) SDL_BlitSurface(text1, NULL, screen, &pos_text1);
+        if (mode) SDL_BlitSurface(text2, NULL, screen, &pos_text2);
         SDL_BlitSurface(text3, NULL, screen, &pos_fps_counter);
-        SDL_BlitSurface(surface_debug, NULL, screen, &pos_debug);
-        if (mode) SDL_BlitSurface(life1, NULL, screen, &pos_life1);
-        if (mode) SDL_BlitSurface(life2, NULL, screen, &pos_life2);
+        SDL_BlitSurface(timerSurface, NULL, screen, &pos_timer);
+        //SDL_BlitSurface(surface_debug, NULL, screen, &pos_debug);
+        SDL_BlitSurface(life1, NULL, screen, &pos_life1);
+        SDL_BlitSurface(life2, NULL, screen, &pos_life2);
+
 
         SDL_Flip(screen);
         }
@@ -529,6 +576,7 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
     SDL_FreeSurface(s8);
     SDL_FreeSurface(s9);
     SDL_FreeSurface(text2);
+    SDL_FreeSurface(timerSurface);
     SDL_FreeSurface(life1);
     SDL_FreeSurface(life2);
     SDL_FreeSurface(surface_debug);

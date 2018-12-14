@@ -80,6 +80,51 @@ Stage loadStage(int s)
         st.y2 = 224;
     }
 
+    // Stage 4 (Cell Game - Dragon Ball Z)
+    else if (s == 4)
+    {
+        SDL_Rect *obstacles = malloc(sizeof(SDL_Rect) * 1);
+        obstacles[0] = newRect(0, 550, 12, 1280); // sol
+        st.image = IMG_Load(STAGE_04);
+        st.position = position;
+        st.obstacles = obstacles;
+        st.nbObstacles = 1;
+        st.x1 = 100;
+        st.y1 = 450;
+        st.x2 = 1180;
+        st.y2 = 450;
+    }
+
+    // Stage 5 (Scene avec des personnages)
+    else if (s == 5)
+    {
+        SDL_Rect *obstacles = malloc(sizeof(SDL_Rect) * 1);
+        obstacles[0] = newRect(0, 500, 10, 1280); // sol
+        st.image = IMG_Load(STAGE_05);
+        st.position = position;
+        st.obstacles = obstacles;
+        st.nbObstacles = 1;
+        st.x1 = 100;
+        st.y1 = 400;
+        st.x2 = 1180;
+        st.y2 = 400;
+    }
+
+    // Stage 6 (Dark World)
+    else if (s == 6)
+    {
+        SDL_Rect *obstacles = malloc(sizeof(SDL_Rect) * 1);
+        obstacles[0] = newRect(0, 583, 10, 1280); // sol
+        st.image = IMG_Load(STAGE_06);
+        st.position = position;
+        st.obstacles = obstacles;
+        st.nbObstacles = 1;
+        st.x1 = 40;
+        st.y1 = 482;
+        st.x2 = 1180;
+        st.y2 = 482;
+    }
+
     return st;
 
 }

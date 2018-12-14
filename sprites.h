@@ -12,6 +12,9 @@ stocke les chemins des images du jeu
 #define STAGE_01                "res/stage_01.jpg"
 #define STAGE_02                "res/stage_02.jpg"
 #define STAGE_03                "res/stage_03.jpg"
+#define STAGE_04                "res/stage_04.jpg"
+#define STAGE_05                "res/stage_05.jpg"
+#define STAGE_06                "res/stage_06.jpg"
 
 // Droid
 #define DROID_ICONE     "res/droid/droid_icone.jpg"

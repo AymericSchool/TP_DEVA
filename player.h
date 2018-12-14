@@ -57,6 +57,7 @@ typedef struct {
     bool surSol;
     int timeShield;
     bool stun;
+    int points;
 
     // STATS
     int victory;

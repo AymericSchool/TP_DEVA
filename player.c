@@ -167,6 +167,7 @@ Player newPlayer(int num, SDL_Surface *surface, SDL_Rect hitbox, int type)
     p.shield = false; // De base, le joueur ne shield pas
     p.timeShield = 0; // Buffer time du shield (on peux pas en abuser)
     p.stun = false;
+    p.points = 0; // Pour le mode temps
 
     return p;
 }

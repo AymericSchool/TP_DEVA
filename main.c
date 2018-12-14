@@ -16,7 +16,11 @@ charge le menu, et lance le jeu
 #include "obstacles.h"
 #include "constantes.h"
 #include "jeu.h"
+<<<<<<< HEAD
 #include "stats.h"
+=======
+#include "stats.h"
+>>>>>>> f268edab0736e9bbb261fe8b14bb32b69495a2df
 #include "menu.h"
 
 
@@ -56,14 +60,19 @@ int main(int argc, char *argv[])
     SDL_Color couleur = {255, 255, 255, 0};
 
     // Position du texte
-    SDL_Rect posText = newRect(125, 500, 0, 0);
+    SDL_Rect posText = newRect(300, 500, 0, 0);
     SDL_Rect posVer = newRect(1140, 700, 0, 0);
     SDL_Rect posBot = newRect(500, 700, 0, 0);
     char botText[32];
 
     // Textes
+<<<<<<< HEAD
+    text = TTF_RenderText_Blended(font, "Appuyez sur la touche RETURN", couleur);
+    ver = TTF_RenderText_Solid(font2, VERSION, couleur);
+=======
     text = TTF_RenderText_Blended(font, "Appuyez sur A, B ou C pour choisir le stage", couleur);
     ver = TTF_RenderText_Solid(font2, "Version 0.3.4", couleur);
+>>>>>>> f268edab0736e9bbb261fe8b14bb32b69495a2df
 //
 
     int temps = 0, tempsIni = 0, aff = 0;
@@ -131,9 +140,15 @@ int main(int argc, char *argv[])
                     case SDLK_n:
                         // On desactive le bot
                         bot = false;
+<<<<<<< HEAD
                         break;
                     case SDLK_RETURN:
                         realMenu(screen);
+=======
+                        break;
+                    case SDLK_RETURN:
+                        realMenu(screen);
+>>>>>>> f268edab0736e9bbb261fe8b14bb32b69495a2df
                         SDL_BlitSurface(menu, NULL, screen, &posMenu);
                         SDL_BlitSurface(ver, NULL, screen, &posVer);
                         SDL_Flip(screen);
