@@ -325,7 +325,7 @@
 	"player.h"
 	"constantes.h"
 
-1544797325 source:c:\users\aymeric\documents\github\smashdeva\jeu.c
+1545140057 source:c:\users\aymeric\documents\github\smashdeva\jeu.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -339,7 +339,7 @@
 	"stats.h"
 	"narrow.h"
 
-1544800098 c:\users\aymeric\documents\github\smashdeva\constantes.h
+1545137322 c:\users\aymeric\documents\github\smashdeva\constantes.h
 
 1544795534 c:\users\aymeric\documents\github\smashdeva\player.h
 	<stdbool.h>
@@ -348,7 +348,7 @@
 
 1544793259 c:\users\aymeric\documents\github\smashdeva\sprites.h
 
-1544799497 source:c:\users\aymeric\documents\github\smashdeva\main.c
+1545139433 source:c:\users\aymeric\documents\github\smashdeva\main.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -407,7 +407,7 @@
 1543686686 c:\users\aymeric\documents\github\smashdeva\stats.h
 	"player.h"
 
-1543686686 source:c:\users\aymeric\documents\github\smashdeva\stats.c
+1545138438 source:c:\users\aymeric\documents\github\smashdeva\stats.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -674,9 +674,9 @@
 	"sprites.h"
 	"menu.h"
 
-1544799304 c:\users\aymeric\documents\github\smashdeva\menu.h
+1544804093 c:\users\aymeric\documents\github\smashdeva\menu.h
 
-1544799770 source:c:\users\aymeric\documents\github\smashdeva\menu.c
+1545140754 source:c:\users\aymeric\documents\github\smashdeva\menu.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>

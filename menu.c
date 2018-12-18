@@ -32,9 +32,122 @@ void realMenu(SDL_Surface* screen)
     menuPrin3 = IMG_Load("res/Menu/MenuCommentJouer.jpg");
     menuPrin4 = IMG_Load("res/Menu/MenuStatistiques.jpg");
     menuPrin5 = IMG_Load("res/Menu/MenuCredits.jpg");
-    statistique = IMG_Load("res/Menu/MenuWIP.jpg");
-    commentJ = IMG_Load("res/Menu/MenuWIP.jpg");
+    statistique = IMG_Load("res/Menu/stats.jpg");
+    commentJ = IMG_Load("res/Menu/comment_jouer.jpg");
     credit = IMG_Load("res/Menu/MenuWIP.jpg");
+
+    TTF_Font *font;
+    font = TTF_OpenFont(FONT_ECRAN_TITRE, 20);
+    SDL_Color couleur_noir = {0, 0, 0, 0};
+
+    // Stats
+    SDL_Surface
+    *ds1, *ds2, *ds3, *ds4,
+    *ks1, *ks2, *ks3, *ks4,
+    *ts1, *ts2, *ts3, *ts4,
+    *ws1, *ws2, *ws3, *ws4;
+
+    SDL_Rect
+    pds1, pds2, pds3, pds4,
+    pks1, pks2, pks3, pks4,
+    pts1, pts2, pts3, pts4,
+    pws1, pws2, pws3, pws4;
+
+    char* buffer;
+    buffer = (char*)malloc(sizeof(char)*8);
+
+    Player temp_droid, temp_kit, temp_tux, temp_wilber;
+    // Stats Droid
+    temp_droid.num = 1;
+    loadStats(&temp_droid);
+
+    sprintf(buffer, "%d", temp_droid.victory);
+    ds1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_droid.defeat);
+    ds2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_droid.distance_travelled);
+    ds3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_droid.big_hit);
+    ds4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    pds1 = newRect(400, 290, 0, 0);
+    pds2 = newRect(400, 400, 0, 0);
+    pds3 = newRect(400, 500, 0, 0);
+    pds4 = newRect(400, 610, 0, 0);
+
+    // Stats Kit
+    temp_kit.num = 2;
+    loadStats(&temp_kit);
+
+    sprintf(buffer, "%d", temp_kit.victory);
+    ks1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_kit.defeat);
+    ks2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_kit.distance_travelled);
+    ks3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_kit.big_hit);
+    ks4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    pks1 = newRect(630, 290, 0, 0);
+    pks2 = newRect(630, 400, 0, 0);
+    pks3 = newRect(630, 500, 0, 0);
+    pks4 = newRect(630, 610, 0, 0);
+
+    // Stats Tux
+    temp_tux.num = 3;
+    loadStats(&temp_tux);
+
+    sprintf(buffer, "%d", temp_tux.victory);
+    ts1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_tux.defeat);
+    ts2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_tux.distance_travelled);
+    ts3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_tux.big_hit);
+    ts4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    pts1 = newRect(850, 290, 0, 0);
+    pts2 = newRect(850, 400, 0, 0);
+    pts3 = newRect(850, 500, 0, 0);
+    pts4 = newRect(850, 610, 0, 0);
+
+    // Stats Wilber
+    temp_wilber.num = 4;
+    loadStats(&temp_wilber);
+
+    sprintf(buffer, "%d", temp_wilber.victory);
+    ws1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_wilber.defeat);
+    ws2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_wilber.distance_travelled);
+    ws3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    sprintf(buffer, "%d", temp_wilber.big_hit);
+    ws4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+    pws1 = newRect(1050, 290, 0, 0);
+    pws2 = newRect(1050, 400, 0, 0);
+    pws3 = newRect(1050, 500, 0, 0);
+    pws4 = newRect(1050, 610, 0, 0);
+
+
+
+
+
+
+
+
 
 
     SDL_Surface *menuStageS, *selectStage;
@@ -291,6 +404,57 @@ void realMenu(SDL_Surface* screen)
                         break;
 
 
+                                case SDLK_r:
+                                    if (etat == statistiques) {
+                                        resetStats(&temp_droid);
+                                        resetStats(&temp_kit);
+                                        resetStats(&temp_tux);
+                                        resetStats(&temp_wilber);
+
+                                    // Stats Droid
+                                    sprintf(buffer, "%d", temp_droid.victory);
+                                    ds1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_droid.defeat);
+                                    ds2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_droid.distance_travelled);
+                                    ds3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_droid.big_hit);
+                                    ds4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+                                    // Stats Kit
+                                    sprintf(buffer, "%d", temp_kit.victory);
+                                    ks1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_kit.defeat);
+                                    ks2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_kit.distance_travelled);
+                                    ks3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_kit.big_hit);
+                                    ks4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+                                    // Stats Tux
+                                    sprintf(buffer, "%d", temp_tux.victory);
+                                    ts1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_tux.defeat);
+                                    ts2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_tux.distance_travelled);
+                                    ts3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_tux.big_hit);
+                                    ts4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+                                    // Stats Wilber
+                                    sprintf(buffer, "%d", temp_wilber.victory);
+                                    ws1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_wilber.defeat);
+                                    ws2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_wilber.distance_travelled);
+                                    ws3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                    sprintf(buffer, "%d", temp_wilber.big_hit);
+                                    ws4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+
+                                    }
+                                    break;
+
+
                     case SDLK_RIGHT:
                         if (etat == chrSelect && j2Pret == 0)
                         {
@@ -405,6 +569,25 @@ void realMenu(SDL_Surface* screen)
 
             case statistiques:
                 SDL_BlitSurface(statistique, NULL, screen, &pos);
+                SDL_BlitSurface(ds1, NULL, screen, &pds1);
+                SDL_BlitSurface(ds2, NULL, screen, &pds2);
+                SDL_BlitSurface(ds3, NULL, screen, &pds3);
+                SDL_BlitSurface(ds4, NULL, screen, &pds4);
+
+                SDL_BlitSurface(ks1, NULL, screen, &pks1);
+                SDL_BlitSurface(ks2, NULL, screen, &pks2);
+                SDL_BlitSurface(ks3, NULL, screen, &pks3);
+                SDL_BlitSurface(ks4, NULL, screen, &pks4);
+
+                SDL_BlitSurface(ts1, NULL, screen, &pts1);
+                SDL_BlitSurface(ts2, NULL, screen, &pts2);
+                SDL_BlitSurface(ts3, NULL, screen, &pts3);
+                SDL_BlitSurface(ts4, NULL, screen, &pts4);
+
+                SDL_BlitSurface(ws1, NULL, screen, &pws1);
+                SDL_BlitSurface(ws2, NULL, screen, &pws2);
+                SDL_BlitSurface(ws3, NULL, screen, &pws3);
+                SDL_BlitSurface(ws4, NULL, screen, &pws4);
                 break;
 
             case comment:

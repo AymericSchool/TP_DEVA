@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     int continuer = 1;
 
     // Ouverture de l'ecran
-    screen = SDL_SetVideoMode(WIDTH_GAME, HEIGHT_GAME, 32, SDL_FULLSCREEN | SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode(WIDTH_GAME, HEIGHT_GAME, 32,  SDL_DOUBLEBUF);
     SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 255, 255, 255));
     SDL_WM_SetCaption(TITLE_GAME, NULL);
 

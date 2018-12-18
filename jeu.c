@@ -441,7 +441,22 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         // Conditions de victoires
         if (mode)
         {
-            if (p1.life == 0 || p2.life == 0) continuer = 0;
+            if (p1.life == 0)
+            {
+                p1.defeat++;
+                p2.victory++;
+                saveStats(p1);
+                saveStats(p2);
+                continuer = 0;
+            }
+            else if (p2.life == 0)
+            {
+                p1.victory++;
+                p2.defeat++;
+                saveStats(p1);
+                saveStats(p2);
+                continuer = 0;
+            }
         }
         else if (!mode)
         {

@@ -36,4 +36,5 @@ void resetStats(Player *p)
     p->defeat = 0;
     p->victory = 0;
     p->big_hit = 0;
+    saveStats(*p);
 }
