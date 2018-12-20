@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
@@ -40,6 +39,19 @@ void realMenu(SDL_Surface* screen)
     font = TTF_OpenFont(FONT_ECRAN_TITRE, 20);
     SDL_Color couleur_noir = {0, 0, 0, 0};
 
+    // Changer le type du bot
+    SDL_Surface *typeBot_s = NULL, *surfaceTextType = NULL;
+    char textTextType[24] = "A : Changer Mode";
+    SDL_Rect posTextType = newRect(720, 650, 0, 0);
+
+    char* typeBot_c;
+    typeBot_c = malloc(sizeof(char)*16);
+    strcpy(typeBot_c, "Joueur");
+
+    SDL_Rect typeBot_p;
+    typeBot_p = newRect(720, 690, 0, 0);
+    int type = 0;
+
     // Stats
     SDL_Surface
     *ds1, *ds2, *ds3, *ds4,
@@ -54,7 +66,7 @@ void realMenu(SDL_Surface* screen)
     pws1, pws2, pws3, pws4;
 
     char* buffer;
-    buffer = (char*)malloc(sizeof(char)*8);
+    buffer = (char*)malloc(sizeof(char)*16);
 
     Player temp_droid, temp_kit, temp_tux, temp_wilber;
     // Stats Droid
@@ -403,6 +415,13 @@ void realMenu(SDL_Surface* screen)
 
                         break;
 
+                                case SDLK_q:
+                                    if (etat == chrSelect)
+                                    {
+                                        type = (type + 1) % 3;
+                                        SDL_Delay(200);
+                                    }
+
 
                                 case SDLK_r:
                                     if (etat == statistiques) {
@@ -531,9 +550,19 @@ void realMenu(SDL_Surface* screen)
                     case SDLK_RETURN:
                         if (etat == chrSelect && j1Pret && j2Pret) {
                                 if (menuPrin == jouerVies)
-                                    jouer(screen, menuStage+1, false, true, choixPersoJ1, choixPersoJ2);
+                                {
+                                    if (type == 0)  jouer(screen, menuStage+1, false, true, choixPersoJ1, choixPersoJ2, 0);
+                                    if (type == 1)  jouer(screen, menuStage+1, true, true, choixPersoJ1, choixPersoJ2, 1);
+                                    if (type == 2)  jouer(screen, menuStage+1, true, true, choixPersoJ1, choixPersoJ2, 2);
+                                }
+
                                 else if (menuPrin == jouerTemps)
-                                    jouer(screen, menuStage+1, false, false, choixPersoJ1, choixPersoJ2);
+                                {
+                                    if (type == 0)  jouer(screen, menuStage+1, false, false, choixPersoJ1, choixPersoJ2, 0);
+                                    if (type == 1)  jouer(screen, menuStage+1, true, false, choixPersoJ1, choixPersoJ2, 1);
+                                    if (type == 2)  jouer(screen, menuStage+1, true, false, choixPersoJ1, choixPersoJ2, 2);
+                                }
+
 
                         }
                 }
@@ -637,6 +666,13 @@ void realMenu(SDL_Surface* screen)
 
             case chrSelect:
                 SDL_BlitSurface(sMenuChr, NULL, screen, &pos);
+                if (type == 0) sprintf(typeBot_c, "Joueur");
+                if (type == 1) sprintf(typeBot_c, "Bot Facile");
+                if (type == 2) sprintf(typeBot_c, "Bot Normal");
+                typeBot_s = TTF_RenderText_Blended(font, typeBot_c, couleur_noir);
+                surfaceTextType = TTF_RenderText_Blended(font, textTextType, couleur_noir);
+                SDL_BlitSurface(surfaceTextType, NULL, screen, &posTextType);
+                SDL_BlitSurface(typeBot_s, NULL, screen, &typeBot_p);
                 switch(choixPersoJ1)
                 {
                     case droid:
@@ -687,6 +723,7 @@ void realMenu(SDL_Surface* screen)
 
 
         }
+
         SDL_Flip(screen);
 
     }

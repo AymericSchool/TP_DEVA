@@ -25,6 +25,8 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="C:/Users/Aymeric/Documents/GitHub/SmashDEVA/SDL_ttf.lib" />
+					<Add library="C:/Program Files (x86)/CodeBlocks/SDL-1.2.15/bin/SDL_image.lib" />
 				</Linker>
 			</Target>
 		</Build>

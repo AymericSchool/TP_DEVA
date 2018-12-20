@@ -18,7 +18,7 @@ tout commence ici
 #include "stats.h"
 #include "narrow.h"
 
-void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player1, int player2) {
+void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player1, int player2, int niveauBot) {
     // Creation des surfaces
     SDL_Surface *j1 = NULL, *j2 = NULL, *text1 = NULL, *text2 = NULL, *text3 = NULL, *life1, *life2, *surface_debug, *timerSurface = NULL;
 
@@ -36,9 +36,6 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
 
     // Load du stage
     Stage st = loadStage(stageChoisi);
-
-    // Niveau du bot
-    int niveauBot = 1;
 
     SDL_Rect pos_narrow = newRect(0,0,HEIGHT_GAME,WIDTH_GAME);
 

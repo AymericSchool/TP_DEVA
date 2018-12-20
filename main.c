@@ -100,38 +100,7 @@ int main(int argc, char *argv[])
                         // On arrete
                         continuer = 0;
                         break;
-                    case SDLK_q:
-                        // On lance le jeu
-                        jouer(screen, 1, bot, mode, 3, 4);
-                        SDL_BlitSurface(menu, NULL, screen, &posMenu);
-                        SDL_BlitSurface(ver, NULL, screen, &posVer);
-                        SDL_Flip(screen);
-                        SDL_Delay(800);
-                        break;
-                    case SDLK_b:
-                        // On lance le jeu avec stage 2
-                        jouer(screen, 2, bot, mode, 1, 2);
-                        SDL_BlitSurface(menu, NULL, screen, &posMenu);
-                        SDL_BlitSurface(ver, NULL, screen, &posVer);
-                        SDL_Flip(screen);
-                        SDL_Delay(800);
-                        break;
-                    case SDLK_c:
-                        // On lance le jeu avec stage 3
-                        jouer(screen, 3, bot, mode, 1, 2);
-                        SDL_BlitSurface(menu, NULL, screen, &posMenu);
-                        SDL_BlitSurface(ver, NULL, screen, &posVer);
-                        SDL_Flip(screen);
-                        SDL_Delay(800);
-                        break;
-                    case SDLK_o:
-                        // On active le bot
-                        bot = true;
-                        break;
-                    case SDLK_n:
-                        // On desactive le bot
-                        bot = false;
-                        break;
+
                     case SDLK_RETURN:
                         realMenu(screen);
                         SDL_BlitSurface(menu, NULL, screen, &posMenu);
