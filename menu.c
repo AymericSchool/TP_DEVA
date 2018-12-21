@@ -17,6 +17,7 @@
 void realMenu(SDL_Surface* screen)
 {
 
+
     int menuPrin = jouerVies;
     int menuStage = stage1;
     int choixPersoJ1 = droid; int j1Pret = 0;
@@ -33,7 +34,7 @@ void realMenu(SDL_Surface* screen)
     menuPrin5 = IMG_Load("res/Menu/MenuCredits.jpg");
     statistique = IMG_Load("res/Menu/stats.jpg");
     commentJ = IMG_Load("res/Menu/comment_jouer.jpg");
-    credit = IMG_Load("res/Menu/MenuWIP.jpg");
+    credit = IMG_Load("res/Menu/Credits.jpg");
 
     TTF_Font *font;
     font = TTF_OpenFont(FONT_ECRAN_TITRE, 20);
@@ -175,7 +176,7 @@ void realMenu(SDL_Surface* screen)
     sStage5 = IMG_Load("res/Menu/stage_05.jpg");
     sStage6 = IMG_Load("res/Menu/stage_06.jpg");
 
-    SDL_Surface *sMenuChr, *sIconeJ1, *sIconeJ2;
+    SDL_Surface *sMenuChr, *sIconeJ1, *sIconeJ2, *fondNoir, *pret;
     SDL_Surface *iDroid, *iKit, *iTux, *iWilber;
     SDL_Rect posIconeJ1 = newRect(145, 155, 0, 0);
     SDL_Rect posIconeJ2 = newRect(195, 155, 0, 0);
@@ -184,6 +185,8 @@ void realMenu(SDL_Surface* screen)
     sMenuChr = IMG_Load("res/Menu/ChrSelect.jpg");
     sIconeJ1 = IMG_Load("res/Menu/IconeJ1.png");
     sIconeJ2 = IMG_Load("res/Menu/IconeJ2.png");
+    fondNoir = IMG_Load("res/Menu/fondnoir.png");
+    pret = IMG_Load("res/Menu/pret.png");
     iDroid = IMG_Load(DROID_ICONE);
     iKit = IMG_Load(KIT_ICONE);
     iTux = IMG_Load(TUX_ICONE);
@@ -201,21 +204,23 @@ void realMenu(SDL_Surface* screen)
         {
             case SDL_QUIT:
                 continuer = 0;
+                break;
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym)
                 {
                     case SDLK_ESCAPE:
                         if (etat == statistiques || etat == comment || etat == cred) {
+                            SDL_Delay(500);
                             etat = menuMain;
                         }
                         else if (etat == stageSelect) {
+                            SDL_Delay(500);
                             etat = menuMain;
                         }
                         else if (etat == chrSelect) {
+                            SDL_Delay(500);
                             etat = stageSelect;
                         }
-
-
                         else continuer = 0;
                         break;
 
@@ -237,7 +242,6 @@ void realMenu(SDL_Surface* screen)
                                     break;
                             }
                         }
-
                         else if (etat == stageSelect)
                         {
                             switch(menuStage)
@@ -258,8 +262,6 @@ void realMenu(SDL_Surface* screen)
                                     break;
                             }
                         }
-
-
                         break;
 
                     case SDLK_s:
@@ -280,7 +282,6 @@ void realMenu(SDL_Surface* screen)
                                     break;
                             }
                         }
-
                         else if (etat == stageSelect)
                         {
                             switch(menuStage)
@@ -301,12 +302,10 @@ void realMenu(SDL_Surface* screen)
                                     break;
                             }
                         }
-
-
                         break;
 
                     case SDLK_a:
-                          if (etat == menuMain)
+                        if (etat == menuMain)
                         {
                             switch(menuPrin)
                             {
@@ -323,7 +322,6 @@ void realMenu(SDL_Surface* screen)
                                     break;
                             }
                         }
-
                         else if (etat == stageSelect)
                         {
                             switch(menuStage)
@@ -341,7 +339,6 @@ void realMenu(SDL_Surface* screen)
                                     break;
                             }
                         }
-
                         else if (etat == chrSelect && j1Pret == 0)
                         {
                             switch(choixPersoJ1)
@@ -359,7 +356,6 @@ void realMenu(SDL_Surface* screen)
                                     break;
                             }
                         }
-
                         break;
 
                     case SDLK_d:
@@ -376,7 +372,6 @@ void realMenu(SDL_Surface* screen)
 
                             }
                         }
-
                         else if (etat == stageSelect)
                         {
                             switch(menuStage)
@@ -394,7 +389,6 @@ void realMenu(SDL_Surface* screen)
                                     break;
                             }
                         }
-
                         else if (etat == chrSelect && j1Pret == 0)
                         {
                             switch(choixPersoJ1)
@@ -412,66 +406,66 @@ void realMenu(SDL_Surface* screen)
                                     break;
                             }
                         }
-
                         break;
 
-                                case SDLK_q:
-                                    if (etat == chrSelect)
-                                    {
-                                        type = (type + 1) % 3;
-                                        SDL_Delay(200);
-                                    }
+                        case SDLK_q:
+                            if (etat == chrSelect)
+                            {
+                                type = (type + 1) % 3;
+                                SDL_Delay(200);
+                            }
+                            break;
 
 
-                                case SDLK_r:
-                                    if (etat == statistiques) {
-                                        resetStats(&temp_droid);
-                                        resetStats(&temp_kit);
-                                        resetStats(&temp_tux);
-                                        resetStats(&temp_wilber);
+                        case SDLK_r:
+                            if (etat == statistiques) {
+                                resetStats(&temp_droid);
+                                resetStats(&temp_kit);
+                                resetStats(&temp_tux);
+                                resetStats(&temp_wilber);
 
-                                    // Stats Droid
-                                    sprintf(buffer, "%d", temp_droid.victory);
-                                    ds1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_droid.defeat);
-                                    ds2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_droid.distance_travelled);
-                                    ds3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_droid.big_hit);
-                                    ds4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                // Stats Droid
+                                sprintf(buffer, "%d", temp_droid.victory);
+                                ds1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_droid.defeat);
+                                ds2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_droid.distance_travelled);
+                                ds3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_droid.big_hit);
+                                ds4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
 
-                                    // Stats Kit
-                                    sprintf(buffer, "%d", temp_kit.victory);
-                                    ks1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_kit.defeat);
-                                    ks2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_kit.distance_travelled);
-                                    ks3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_kit.big_hit);
-                                    ks4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                // Stats Kit
+                                sprintf(buffer, "%d", temp_kit.victory);
+                                ks1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_kit.defeat);
+                                ks2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_kit.distance_travelled);
+                                ks3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_kit.big_hit);
+                                ks4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
 
-                                    // Stats Tux
-                                    sprintf(buffer, "%d", temp_tux.victory);
-                                    ts1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_tux.defeat);
-                                    ts2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_tux.distance_travelled);
-                                    ts3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_tux.big_hit);
-                                    ts4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                // Stats Tux
+                                sprintf(buffer, "%d", temp_tux.victory);
+                                ts1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_tux.defeat);
+                                ts2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_tux.distance_travelled);
+                                ts3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_tux.big_hit);
+                                ts4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
 
-                                    // Stats Wilber
-                                    sprintf(buffer, "%d", temp_wilber.victory);
-                                    ws1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_wilber.defeat);
-                                    ws2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_wilber.distance_travelled);
-                                    ws3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
-                                    sprintf(buffer, "%d", temp_wilber.big_hit);
-                                    ws4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                // Stats Wilber
+                                sprintf(buffer, "%d", temp_wilber.victory);
+                                ws1 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_wilber.defeat);
+                                ws2 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_wilber.distance_travelled);
+                                ws3 = TTF_RenderText_Blended(font, buffer , couleur_noir);
+                                sprintf(buffer, "%d", temp_wilber.big_hit);
+                                ws4 = TTF_RenderText_Blended(font, buffer , couleur_noir);
 
-                                    }
-                                    break;
+                            }
+                            break;
 
 
                     case SDLK_RIGHT:
@@ -539,33 +533,37 @@ void realMenu(SDL_Surface* screen)
                             j1Pret = 1;
                         }
                         break;
-                    default:
-                        break;
 
                     case SDLK_KP0:
                         if (etat == chrSelect && j2Pret == 0) {
                             j2Pret = 1;
                         }
+                        break;
 
                     case SDLK_RETURN:
                         if (etat == chrSelect && j1Pret && j2Pret) {
                                 if (menuPrin == jouerVies)
                                 {
-                                    if (type == 0)  jouer(screen, menuStage+1, false, true, choixPersoJ1, choixPersoJ2, 0);
-                                    if (type == 1)  jouer(screen, menuStage+1, true, true, choixPersoJ1, choixPersoJ2, 1);
-                                    if (type == 2)  jouer(screen, menuStage+1, true, true, choixPersoJ1, choixPersoJ2, 2);
+                                    if (type == 0){  jouer(screen, menuStage+1, false, true, choixPersoJ1, choixPersoJ2, 0); j1Pret = 0; j2Pret = 0, SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);}
+                                    if (type == 1){  jouer(screen, menuStage+1, true, true, choixPersoJ1, choixPersoJ2, 1); j1Pret = 0; j2Pret = 0, SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);}
+                                    if (type == 2){  jouer(screen, menuStage+1, true, true, choixPersoJ1, choixPersoJ2, 2); j1Pret = 0; j2Pret = 0, SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);}
                                 }
 
                                 else if (menuPrin == jouerTemps)
                                 {
-                                    if (type == 0)  jouer(screen, menuStage+1, false, false, choixPersoJ1, choixPersoJ2, 0);
-                                    if (type == 1)  jouer(screen, menuStage+1, true, false, choixPersoJ1, choixPersoJ2, 1);
-                                    if (type == 2)  jouer(screen, menuStage+1, true, false, choixPersoJ1, choixPersoJ2, 2);
+                                    if (type == 0){  jouer(screen, menuStage+1, false, false, choixPersoJ1, choixPersoJ2, 0); j1Pret = 0; j2Pret = 0, SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);}
+                                    if (type == 1){  jouer(screen, menuStage+1, true, false, choixPersoJ1, choixPersoJ2, 1); j1Pret = 0; j2Pret = 0, SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);}
+                                    if (type == 2){  jouer(screen, menuStage+1, true, false, choixPersoJ1, choixPersoJ2, 2); j1Pret = 0; j2Pret = 0, SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);}
                                 }
 
 
                         }
+                        break;
+
+                    default:
+                        break;
                 }
+                break;
 
             default:
                 break;
@@ -719,6 +717,13 @@ void realMenu(SDL_Surface* screen)
                         SDL_BlitSurface(sIconeJ2, NULL, screen, &posIconeJ2);
                         break;
                 }
+                if (j1Pret && j2Pret)
+                {
+                    SDL_BlitSurface(fondNoir, NULL, screen, &pos);
+                    SDL_BlitSurface(pret, NULL, screen, &pos);
+                }
+
+
                 break;
 
 

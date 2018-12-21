@@ -37,15 +37,10 @@ int main(int argc, char *argv[])
     }
 
 
-    // Bot
-    bool bot = true;
-
-    // Mode
-    bool mode = true;
-    /* true : vies, false : temps*/
+    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
     // Creation des surfaces
-    SDL_Surface *screen = NULL, *menu = NULL, *text = NULL, *ver = NULL, *bot_surface = NULL;
+    SDL_Surface *screen = NULL, *menu = NULL, *text = NULL, *ver = NULL;
 
     // Police
     TTF_Font *font = NULL, *font2 = NULL;
@@ -58,8 +53,6 @@ int main(int argc, char *argv[])
     // Position du texte
     SDL_Rect posText = newRect(300, 500, 0, 0);
     SDL_Rect posVer = newRect(1140, 700, 0, 0);
-    SDL_Rect posBot = newRect(500, 700, 0, 0);
-    char botText[32];
 
     // Textes
     text = TTF_RenderText_Blended(font, "Appuyez sur la touche RETURN", couleur);
@@ -77,7 +70,7 @@ int main(int argc, char *argv[])
     int continuer = 1;
 
     // Ouverture de l'ecran
-    screen = SDL_SetVideoMode(WIDTH_GAME, HEIGHT_GAME, 32,  SDL_DOUBLEBUF);
+    screen = SDL_SetVideoMode(WIDTH_GAME, HEIGHT_GAME, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
     SDL_FillRect(screen,NULL,SDL_MapRGB(screen->format, 255, 255, 255));
     SDL_WM_SetCaption(TITLE_GAME, NULL);
 
@@ -106,7 +99,8 @@ int main(int argc, char *argv[])
                         SDL_BlitSurface(menu, NULL, screen, &posMenu);
                         SDL_BlitSurface(ver, NULL, screen, &posVer);
                         SDL_Flip(screen);
-                        SDL_Delay(800);
+                        SDL_Delay(200);
+                        break;
                     default:
                         break;
                 }
@@ -117,10 +111,6 @@ int main(int argc, char *argv[])
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
         SDL_BlitSurface(menu, NULL, screen, &posMenu);
         SDL_BlitSurface(ver, NULL, screen, &posVer);
-        if (bot) sprintf(botText, "IA activee (n pour desactiver)");
-        else sprintf(botText, "IA desactivee (o pour activer)");
-        bot_surface = TTF_RenderText_Solid(font2, botText, couleur);
-        SDL_BlitSurface(bot_surface, NULL, screen, &posBot);
 
         // Clignotement du texte
         tempsIni = SDL_GetTicks();

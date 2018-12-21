@@ -199,7 +199,7 @@
 	"begin_code.h"
 	"close_code.h"
 
-1325810433 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl_image.h
+1325810434 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl_image.h
 	"SDL.h"
 	"SDL_version.h"
 	"begin_code.h"
@@ -385,7 +385,7 @@
 	"constantes.h"
 	"stats.h"
 
-1325814793 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl_ttf.h
+1325814794 c:\program files (x86)\codeblocks\sdl-1.2.15\include\sdl\sdl_ttf.h
 	"SDL.h"
 	"begin_code.h"
 	"close_code.h"
@@ -418,7 +418,7 @@
 
 1545310858 c:\users\aymeric\documents\github\smashdeva\jeu.h
 
-1543508185 source:c:\users\maxence\documents\github\smashdeva\ia.c
+1544727461 source:c:\users\maxence\documents\github\smashdeva\ia.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -426,15 +426,16 @@
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>
 	<SDL/SDL_ttf.h>
+	<time.h>
 	"player.h"
-	"constantes.h"
+	"time.h"
 
-1543508185 c:\users\maxence\documents\github\smashdeva\player.h
+1544810539 c:\users\maxence\documents\github\smashdeva\player.h
 	<stdbool.h>
 
-1543513888 c:\users\maxence\documents\github\smashdeva\constantes.h
+1545151160 c:\users\maxence\documents\github\smashdeva\constantes.h
 
-1543513858 source:c:\users\maxence\documents\github\smashdeva\main.c
+1545392975 source:c:\users\maxence\documents\github\smashdeva\main.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -447,15 +448,16 @@
 	"constantes.h"
 	"jeu.h"
 	"stats.h"
+	"menu.h"
 
-1543508185 c:\users\maxence\documents\github\smashdeva\obstacles.h
+1543759340 c:\users\maxence\documents\github\smashdeva\obstacles.h
 
-1543508185 c:\users\maxence\documents\github\smashdeva\jeu.h
+1545389412 c:\users\maxence\documents\github\smashdeva\jeu.h
 
-1543508185 c:\users\maxence\documents\github\smashdeva\stats.h
+1545393971 c:\users\maxence\documents\github\smashdeva\stats.h
 	"player.h"
 
-1543508185 source:c:\users\maxence\documents\github\smashdeva\obstacles.c
+1544810539 source:c:\users\maxence\documents\github\smashdeva\obstacles.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -463,8 +465,10 @@
 	<SDL/SDL.h>
 	<SDL/SDL_image.h>
 	"obstacles.h"
+	"constantes.h"
+	"sprites.h"
 
-1543508185 source:c:\users\maxence\documents\github\smashdeva\player.c
+1544810539 source:c:\users\maxence\documents\github\smashdeva\player.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -475,7 +479,7 @@
 	"constantes.h"
 	"stats.h"
 
-1543508185 source:c:\users\maxence\documents\github\smashdeva\stats.c
+1545151162 source:c:\users\maxence\documents\github\smashdeva\stats.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -484,7 +488,7 @@
 	"constantes.h"
 	"player.h"
 
-1543513919 source:c:\users\maxence\documents\github\smashdeva\jeu.c
+1545392975 source:c:\users\maxence\documents\github\smashdeva\jeu.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -496,12 +500,13 @@
 	"sprites.h"
 	"ia.h"
 	"stats.h"
+	"narrow.h"
 
-1543433280 c:\users\maxence\documents\github\smashdeva\sprites.h
+1544810540 c:\users\maxence\documents\github\smashdeva\sprites.h
 
-1543508185 c:\users\maxence\documents\github\smashdeva\ia.h
+1544120867 c:\users\maxence\documents\github\smashdeva\ia.h
 
-1543433413 source:c:\users\maxence\documents\github\smashdeva\sprites.c
+1543759340 source:c:\users\maxence\documents\github\smashdeva\sprites.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -691,4 +696,36 @@
 	"stats.h"
 	"sprites.h"
 	"menu.h"
+
+1543759340 c:\users\maxence\documents\github\smashdeva\narrow.h
+
+1544810539 c:\users\maxence\documents\github\smashdeva\menu.h
+
+1545395234 source:c:\users\maxence\documents\github\smashdeva\menu.c
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<string.h>
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	<SDL/SDL_ttf.h>
+	"player.h"
+	"obstacles.h"
+	"constantes.h"
+	"jeu.h"
+	"stats.h"
+	"sprites.h"
+	"menu.h"
+
+1544120867 source:c:\users\maxence\documents\github\smashdeva\narrow.c
+	<stdlib.h>
+	<stdio.h>
+	<stdbool.h>
+	<string.h>
+	<SDL/SDL.h>
+	<SDL/SDL_image.h>
+	"player.h"
+	"obstacles.h"
+	"constantes.h"
+	"narrow.h"
 
