@@ -18,15 +18,16 @@ void realMenu(SDL_Surface* screen)
 {
 
 
-    int menuPrin = jouerVies;
+    int menuPrin = first;
     int menuStage = stage1;
     int choixPersoJ1 = droid; int j1Pret = 0;
     int choixPersoJ2 = wilber; int j2Pret = 0;
     int etat = menuMain;
 
-    SDL_Surface *menuPrin1, *menuPrin2, *menuPrin3, *menuPrin4, *menuPrin5;
+    SDL_Surface *menuPrin0, *menuPrin1, *menuPrin2, *menuPrin3, *menuPrin4, *menuPrin5;
     SDL_Surface *statistique, *commentJ, *credit;
     SDL_Rect pos = newRect(0, 0, 0, 0);
+    menuPrin0 = IMG_Load("res/Menu/First_Frame_Menu.jpg");
     menuPrin1 = IMG_Load("res/Menu/MenuJouerVies.jpg");
     menuPrin2 = IMG_Load("res/Menu/MenuJouerTemps.jpg");
     menuPrin3 = IMG_Load("res/Menu/MenuCommentJouer.jpg");
@@ -182,7 +183,7 @@ void realMenu(SDL_Surface* screen)
     SDL_Rect posIconeJ2 = newRect(195, 155, 0, 0);
     SDL_Rect posIJ1 = newRect(300, 485, 0, 0);
     SDL_Rect posIJ2 = newRect(800, 485, 0, 0);
-    sMenuChr = IMG_Load("res/Menu/ChrSelect.jpg");
+    sMenuChr = IMG_Load("res/Menu/ChrSelect_2.jpg");
     sIconeJ1 = IMG_Load("res/Menu/IconeJ1.png");
     sIconeJ2 = IMG_Load("res/Menu/IconeJ2.png");
     fondNoir = IMG_Load("res/Menu/fondnoir.png");
@@ -229,6 +230,9 @@ void realMenu(SDL_Surface* screen)
                         {
                             switch(menuPrin)
                             {
+                            case first:
+                                menuPrin = jouerVies;
+                                break;
                                 case jouerTemps:
                                     menuPrin = jouerVies;
                                     break;
@@ -267,8 +271,12 @@ void realMenu(SDL_Surface* screen)
                     case SDLK_s:
                         if (etat == menuMain)
                         {
+
                             switch(menuPrin)
                             {
+                            case first:
+                                menuPrin = jouerVies;
+                                break;
                                 case jouerVies:
                                     menuPrin = jouerTemps;
                                     break;
@@ -309,6 +317,9 @@ void realMenu(SDL_Surface* screen)
                         {
                             switch(menuPrin)
                             {
+                            case first:
+                                menuPrin = jouerVies;
+                                break;
                                 case commentJouer:
                                     menuPrin = jouerVies;
                                     break;
@@ -363,6 +374,9 @@ void realMenu(SDL_Surface* screen)
                         {
                             switch(menuPrin)
                             {
+                            case first:
+                                menuPrin = jouerVies;
+                                break;
                                 case jouerVies:
                                     menuPrin = commentJouer;
                                     break;
@@ -576,6 +590,9 @@ void realMenu(SDL_Surface* screen)
             case menuMain:
                 switch(menuPrin)
                 {
+                case first:
+                    SDL_BlitSurface(menuPrin0, NULL, screen, &pos);
+                    break;
                     case jouerVies:
                         SDL_BlitSurface(menuPrin1, NULL, screen, &pos);
                         break;
@@ -591,6 +608,7 @@ void realMenu(SDL_Surface* screen)
                     case credits:
                         SDL_BlitSurface(menuPrin5, NULL, screen, &pos);
                         break;
+
                 }
                 break;
 
