@@ -418,7 +418,7 @@
 
 1545310858 c:\users\aymeric\documents\github\smashdeva\jeu.h
 
-1544727461 source:c:\users\maxence\documents\github\smashdeva\ia.c
+1545397486 source:c:\users\maxence\documents\github\smashdeva\ia.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -430,12 +430,12 @@
 	"player.h"
 	"time.h"
 
-1544810539 c:\users\maxence\documents\github\smashdeva\player.h
+1545397486 c:\users\maxence\documents\github\smashdeva\player.h
 	<stdbool.h>
 
-1545151160 c:\users\maxence\documents\github\smashdeva\constantes.h
+1545399750 c:\users\maxence\documents\github\smashdeva\constantes.h
 
-1545392975 source:c:\users\maxence\documents\github\smashdeva\main.c
+1545397486 source:c:\users\maxence\documents\github\smashdeva\main.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -450,14 +450,14 @@
 	"stats.h"
 	"menu.h"
 
-1543759340 c:\users\maxence\documents\github\smashdeva\obstacles.h
+1545397486 c:\users\maxence\documents\github\smashdeva\obstacles.h
 
-1545389412 c:\users\maxence\documents\github\smashdeva\jeu.h
+1545397486 c:\users\maxence\documents\github\smashdeva\jeu.h
 
-1545393971 c:\users\maxence\documents\github\smashdeva\stats.h
+1545397487 c:\users\maxence\documents\github\smashdeva\stats.h
 	"player.h"
 
-1544810539 source:c:\users\maxence\documents\github\smashdeva\obstacles.c
+1545397486 source:c:\users\maxence\documents\github\smashdeva\obstacles.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -468,7 +468,7 @@
 	"constantes.h"
 	"sprites.h"
 
-1544810539 source:c:\users\maxence\documents\github\smashdeva\player.c
+1545397486 source:c:\users\maxence\documents\github\smashdeva\player.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -479,7 +479,7 @@
 	"constantes.h"
 	"stats.h"
 
-1545151162 source:c:\users\maxence\documents\github\smashdeva\stats.c
+1545397487 source:c:\users\maxence\documents\github\smashdeva\stats.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -488,7 +488,7 @@
 	"constantes.h"
 	"player.h"
 
-1545392975 source:c:\users\maxence\documents\github\smashdeva\jeu.c
+1545399731 source:c:\users\maxence\documents\github\smashdeva\jeu.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -502,11 +502,11 @@
 	"stats.h"
 	"narrow.h"
 
-1544810540 c:\users\maxence\documents\github\smashdeva\sprites.h
+1545399353 c:\users\maxence\documents\github\smashdeva\sprites.h
 
-1544120867 c:\users\maxence\documents\github\smashdeva\ia.h
+1545397486 c:\users\maxence\documents\github\smashdeva\ia.h
 
-1543759340 source:c:\users\maxence\documents\github\smashdeva\sprites.c
+1545397487 source:c:\users\maxence\documents\github\smashdeva\sprites.c
 	<stdlib.h>
 	<stdio.h>
 	<SDL/SDL.h>
@@ -697,11 +697,11 @@
 	"sprites.h"
 	"menu.h"
 
-1543759340 c:\users\maxence\documents\github\smashdeva\narrow.h
+1545397486 c:\users\maxence\documents\github\smashdeva\narrow.h
 
-1544810539 c:\users\maxence\documents\github\smashdeva\menu.h
+1545397486 c:\users\maxence\documents\github\smashdeva\menu.h
 
-1545395234 source:c:\users\maxence\documents\github\smashdeva\menu.c
+1545397486 source:c:\users\maxence\documents\github\smashdeva\menu.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>
@@ -717,7 +717,7 @@
 	"sprites.h"
 	"menu.h"
 
-1544120867 source:c:\users\maxence\documents\github\smashdeva\narrow.c
+1545397486 source:c:\users\maxence\documents\github\smashdeva\narrow.c
 	<stdlib.h>
 	<stdio.h>
 	<stdbool.h>

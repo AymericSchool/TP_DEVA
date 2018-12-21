@@ -10,7 +10,7 @@ constantes du jeu
 #define WIDTH_GAME      1280
 #define HEIGHT_GAME     720
 #define TITLE_GAME          "Smash Narrow"
-#define VERSION                     "0.4.2"
+#define VERSION                     "0.5.0"
 #define FONT_UBUNTU     "res/font_ubuntu.ttf"
 #define FONT_ECRAN_TITRE    "res/Display.ttf"
 #define LIMIT_NARROW        110

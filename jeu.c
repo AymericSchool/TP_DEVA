@@ -99,6 +99,11 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
     else p2 = newPlayer(player2, j2, pos_j2, 1);
     loadStats(&p2);
 
+    SDL_Surface *punch1 = NULL, *stun1 = NULL, *shield1 = NULL, *def1 = NULL;
+    SDL_Surface *punch2 = NULL, *stun2 = NULL, *shield2 = NULL, *def2 = NULL;
+    bool attack1 = false;
+    bool attack2 = false;
+
     switch (player1)
     {
     case 1:
@@ -106,6 +111,10 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         p1.speed = 7;
         p1.surface = IMG_Load(DROID_00);
         p1.icone = IMG_Load(DROID_ICONE);
+        punch1 = IMG_Load(DROID_09);
+        stun1 = IMG_Load(DROID_13);
+        shield1 = IMG_Load(DROID_15);
+        def1 = p1.surface;
         break;
 
     case 2:
@@ -113,6 +122,10 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         p1.speed = 10;
         p1.surface = IMG_Load(KIT_00);
         p1.icone = IMG_Load(KIT_ICONE);
+        punch1 = IMG_Load(KIT_09);
+        stun1 = IMG_Load(KIT_13);
+        shield1 = IMG_Load(KIT_15);
+        def1 = p1.surface;
         break;
 
     case 3:
@@ -121,6 +134,10 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         p1.life = 4;
         p1.surface = IMG_Load(TUX_00);
         p1.icone = IMG_Load(TUX_ICONE);
+        punch1 = IMG_Load(TUX_09);
+        stun1 = IMG_Load(TUX_13);
+        shield1 = IMG_Load(TUX_15);
+        def1 = p1.surface;
         break;
 
     case 4:
@@ -129,6 +146,10 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         p1.life = 6;
         p1.surface = IMG_Load(WILBER_00);
         p1.icone = IMG_Load(WILBER_ICONE);
+        punch1 = IMG_Load(WILBER_09);
+        stun1 = IMG_Load(WILBER_13);
+        shield1 = IMG_Load(WILBER_15);
+        def1 = p1.surface;
         break;
 
     default:
@@ -142,12 +163,21 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         p2.speed = 7;
         p2.surface = IMG_Load(DROID_00);
         p2.icone = IMG_Load(DROID_ICONE);
+        punch2 = IMG_Load(DROID_09);
+        stun2 = IMG_Load(DROID_13);
+        shield2 = IMG_Load(DROID_15);
+        def2 = p2.surface;
         break;
     case 2:
         p2.jump = 150;
         p2.speed = 10;
         p2.surface = IMG_Load(KIT_00);
         p2.icone = IMG_Load(KIT_ICONE);
+        punch2 = IMG_Load(KIT_09);
+        stun2 = IMG_Load(KIT_13);
+        shield2 = IMG_Load(KIT_15);
+        def2 = p2.surface;
+        break;
         break;
     case 3:
         p2.hp = 60;
@@ -155,6 +185,11 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         p2.life = 4;
         p2.surface = IMG_Load(TUX_00);
         p2.icone = IMG_Load(TUX_ICONE);
+        punch2 = IMG_Load(TUX_09);
+        stun2 = IMG_Load(TUX_13);
+        shield2 = IMG_Load(TUX_15);
+        def2 = p2.surface;
+        break;
         break;
     case 4:
         p2.hp = 40;
@@ -162,6 +197,11 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
         p2.life = 6;
         p2.surface = IMG_Load(WILBER_00);
         p2.icone = IMG_Load(WILBER_ICONE);
+        punch2 = IMG_Load(WILBER_09);
+        stun2 = IMG_Load(WILBER_13);
+        shield2 = IMG_Load(WILBER_15);
+        def2 = p2.surface;
+        break;
         break;
     default:
         break;
@@ -204,6 +244,7 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
                     case J1_ATTACK:
                         // Touche attaque pressee
                         if (p1.canAttack && p1.type == 1) {
+                            attack1 = true;
                             p1.attack = 1;
                             p1.canAttack = 0;
                         }
@@ -234,6 +275,7 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
                     case J2_ATTACK:
                         // Touche attaque pressee
                         if (p2.canAttack && p2.type == 1) {
+                            attack2 = true;
                             p2.attack = 1;
                             p2.canAttack = 0;
                         }
@@ -285,6 +327,7 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
                             // Touche attaque relachee
                             if (p1.type == 1) p1.attack = 0;
                             if (p1.type == 1) p1.canAttack = 1;
+                            if (p1.type == 1) attack1 = false;
                             break;
 
                     case J1_SHIELD:
@@ -311,6 +354,7 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
                         // Touche attaque relachee
                         if (p2.type == 1) p2.attack = 0;
                         if (p2.type == 1) p2.canAttack = 1;
+                        if (p2.type == 1) attack2 = false;
                         break;
 
                     case J2_SHIELD:
@@ -492,6 +536,22 @@ void jouer(SDL_Surface* screen, int stageChoisi, bool bot, bool mode, int player
             position.y = 0;
             SDL_BlitSurface(colonne, NULL, screen, &position);
         }
+
+
+
+        if (attack1) p1.surface = punch1;
+        else if (p1.stun) p1.surface = stun1;
+        else if (p1.shield) p1.surface = shield1;
+        else p1.surface = def1;
+
+        if (attack2) p2.surface = punch2;
+        else if (p2.stun) p2.surface = stun2;
+        else if (p2.shield) p2.surface = shield2;
+        else p2.surface = def2;
+
+
+
+
 
         // Affichage des sprites et des texts
         SDL_BlitSurface(p1.surface, NULL, screen, &p1.hitbox);
